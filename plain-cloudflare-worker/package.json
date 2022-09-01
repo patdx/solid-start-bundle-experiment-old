@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "deploy": "wrangler publish",
+    "dev": "wrangler dev --local",
+    "build": "wrangler publish --dry-run --outdir dist"
+  },
+  "devDependencies": {
+    "wrangler": "^2.0.0"
+  },
+  "dependencies": {
+    "@graphql-yoga/common": "^2.12.10",
+    "graphql": "^16.6.0"
+  }
+}

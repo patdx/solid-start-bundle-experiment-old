@@ -1,0 +1,6 @@
+name = "with-standard-adapter"
+compatibility_date = "2022-08-31"
+
+main = "dist/server.js"
+
+node_compat=true

@@ -1,0 +1,10 @@
+name = "with-custom-adapter"
+compatibility_date = "2022-08-31"
+
+main = "dist/server.js"
+
+[site]
+bucket = "dist/public"
+
+[build]
+# command = "pnpm build"

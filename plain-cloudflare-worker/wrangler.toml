@@ -1,0 +1,6 @@
+name = "plain-worker"
+workers_dev = true
+
+compatibility_date = "2022-05-03"
+
+main = "index.js"

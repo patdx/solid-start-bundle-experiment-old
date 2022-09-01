@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "with-custom-adapter" generated at 2022-09-01T04:41:49.377Z.
