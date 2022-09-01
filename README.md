@@ -86,3 +86,13 @@ If you think this is a bug then please create an issue at https://github.com/clo
 ```
 
 # solid-with-custom-adapter
+
+Main difference from the solid-start-cloudflare-workers adapter is
+
+```diff
+          nodeResolve({
+            preferBuiltins: true,
+            exportConditions: ["node", "solid"],
++           resolveOnly: ["solid-js"],
+          }),
+```
