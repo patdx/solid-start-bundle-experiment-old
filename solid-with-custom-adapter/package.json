@@ -11,24 +11,24 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
     "import-meta-resolve": "^2.1.0",
-    "rollup": "^2.79.0",
-    "solid-start-cloudflare-workers": "0.1.0-alpha.99",
-    "solid-start-node": "0.1.0-alpha.99",
-    "typescript": "^4.4.3",
-    "vite": "^3.0.4",
-    "wrangler": "^2.0.28"
+    "rollup": "^2.79.1",
+    "solid-start-cloudflare-workers": "0.1.2",
+    "solid-start-node": "0.1.2",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.4",
+    "wrangler": "^2.1.9"
   },
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.2.0",
-    "@graphql-yoga/common": "^2.12.10",
+    "@graphql-yoga/common": "^2.12.12",
     "@rollup/plugin-alias": "^3.1.9",
     "@solidjs/meta": "^0.28.0",
-    "@solidjs/router": "^0.4.2",
+    "@solidjs/router": "^0.4.3",
     "graphql": "^16.6.0",
-    "solid-js": "1.5.3",
-    "solid-start": "0.1.0-alpha.99",
+    "solid-js": "1.5.7",
+    "solid-start": "0.1.2",
     "undici": "^5.8.0"
   },
   "engines": {

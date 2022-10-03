@@ -4,6 +4,7 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -19,6 +20,10 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
 
 // node_modules/.pnpm/mime@3.0.0/node_modules/mime/Mime.js
 var require_Mime = __commonJS({
@@ -3456,7 +3461,7 @@ function visit(root, visitor, visitorKeys = QueryDocumentKeys) {
   let stack = void 0;
   let inArray = Array.isArray(root);
   let keys = [root];
-  let index2 = -1;
+  let index = -1;
   let edits = [];
   let node = root;
   let key = void 0;
@@ -3464,8 +3469,8 @@ function visit(root, visitor, visitorKeys = QueryDocumentKeys) {
   const path = [];
   const ancestors = [];
   do {
-    index2++;
-    const isLeaving = index2 === keys.length;
+    index++;
+    const isLeaving = index === keys.length;
     const isEdited = isLeaving && edits.length !== 0;
     if (isLeaving) {
       key = ancestors.length === 0 ? void 0 : path[path.length - 1];
@@ -3494,13 +3499,13 @@ function visit(root, visitor, visitorKeys = QueryDocumentKeys) {
           }
         }
       }
-      index2 = stack.index;
+      index = stack.index;
       keys = stack.keys;
       edits = stack.edits;
       inArray = stack.inArray;
       stack = stack.prev;
     } else if (parent) {
-      key = inArray ? index2 : keys[index2];
+      key = inArray ? index : keys[index];
       node = parent[key];
       if (node === null || node === void 0) {
         continue;
@@ -3542,14 +3547,14 @@ function visit(root, visitor, visitorKeys = QueryDocumentKeys) {
       var _node$kind;
       stack = {
         inArray,
-        index: index2,
+        index,
         keys,
         edits,
         prev: stack
       };
       inArray = Array.isArray(node);
       keys = inArray ? node : (_node$kind = visitorKeys[node.kind]) !== null && _node$kind !== void 0 ? _node$kind : [];
-      index2 = -1;
+      index = -1;
       edits = [];
       if (parent) {
         ancestors.push(parent);
@@ -7781,8 +7786,8 @@ function coerceInputValueImpl(inputValue, type, onError2, path) {
   if (isListType(type)) {
     const itemType = type.ofType;
     if (isIterableObject(inputValue)) {
-      return Array.from(inputValue, (itemValue, index2) => {
-        const itemPath = addPath(path, index2, void 0);
+      return Array.from(inputValue, (itemValue, index) => {
+        const itemPath = addPath(path, index, void 0);
         return coerceInputValueImpl(itemValue, itemType, onError2, itemPath);
       });
     }
@@ -9085,8 +9090,8 @@ var ASTValidationContext = class {
       const nodesToVisit = [operation.selectionSet];
       let node;
       while (node = nodesToVisit.pop()) {
-        for (const spread2 of this.getFragmentSpreads(node)) {
-          const fragName = spread2.name.value;
+        for (const spread of this.getFragmentSpreads(node)) {
+          const fragName = spread.name.value;
           if (collectedNames[fragName] !== true) {
             collectedNames[fragName] = true;
             const fragment = this.getFragment(fragName);
@@ -9668,8 +9673,8 @@ function completeListValue(exeContext, returnType, fieldNodes, info, path, resul
   }
   const itemType = returnType.ofType;
   let containsPromise = false;
-  const completedResults = Array.from(result, (item, index2) => {
-    const itemPath = addPath(path, index2, void 0);
+  const completedResults = Array.from(result, (item, index) => {
+    const itemPath = addPath(path, index, void 0);
     try {
       let completedItem;
       if (isPromise(item)) {
@@ -11423,7 +11428,7 @@ var useMaskedErrors = (opts) => {
   };
 };
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/logger.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/logger.js
 var ANSI_CODES = {
   black: "\x1B[30m",
   red: "\x1B[31m",
@@ -11575,7 +11580,7 @@ var useParserCache = (pluginOptions = {}) => {
   };
 };
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/helpers.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/helpers.js
 var asArray = (fns) => Array.isArray(fns) ? fns : fns ? [fns] : [];
 function compareStrings(a, b) {
   if (String(a) < String(b)) {
@@ -11612,7 +11617,7 @@ function isSome(input) {
   return input != null;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/errors.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/errors.js
 function createGraphQLError(message, options) {
   if (versionInfo.major >= 17) {
     return new GraphQLError(message, options);
@@ -11620,7 +11625,7 @@ function createGraphQLError(message, options) {
   return new GraphQLError(message, options === null || options === void 0 ? void 0 : options.nodes, options === null || options === void 0 ? void 0 : options.source, options === null || options === void 0 ? void 0 : options.positions, options === null || options === void 0 ? void 0 : options.path, options === null || options === void 0 ? void 0 : options.originalError, options === null || options === void 0 ? void 0 : options.extensions);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/AggregateError.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/AggregateError.js
 var AggregateErrorImpl;
 if (typeof AggregateError === "undefined") {
   class AggregateErrorClass extends Error {
@@ -11641,7 +11646,7 @@ function isAggregateError(error) {
   return "errors" in error && Array.isArray(error["errors"]);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/inspect.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/inspect.js
 var MAX_RECURSIVE_DEPTH2 = 3;
 function inspect2(value) {
   return formatValue2(value, []);
@@ -11734,12 +11739,12 @@ function getObjectTag2(object) {
   return tag;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/get-directives.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/get-directives.js
 function getDirectivesInExtensions(node, pathToDirectivesInExtensions = ["directives"]) {
   return pathToDirectivesInExtensions.reduce((acc, pathSegment) => acc == null ? acc : acc[pathSegment], node === null || node === void 0 ? void 0 : node.extensions);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromType.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromType.js
 function astFromType(type) {
   if (isNonNullType(type)) {
     const innerType = astFromType(type.ofType);
@@ -11765,7 +11770,7 @@ function astFromType(type) {
   };
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromValueUntyped.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromValueUntyped.js
 function astFromValueUntyped(value) {
   if (value === null) {
     return { kind: Kind.NULL };
@@ -11812,7 +11817,7 @@ function astFromValueUntyped(value) {
 }
 var integerStringRegExp2 = /^-?(?:0|[1-9][0-9]*)$/;
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/memoize.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/memoize.js
 function memoize1(fn) {
   const memoize1cache = /* @__PURE__ */ new WeakMap();
   return function memoized(a1) {
@@ -11826,7 +11831,7 @@ function memoize1(fn) {
   };
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rootTypes.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rootTypes.js
 var getRootTypeNames = memoize1(function getRootTypeNames2(schema) {
   const rootTypes = getRootTypes(schema);
   return new Set([...rootTypes].map((type) => type.name));
@@ -11852,7 +11857,7 @@ var getRootTypeMap = memoize1(function getRootTypeMap2(schema) {
   return rootTypeMap;
 });
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/print-schema-with-directives.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/print-schema-with-directives.js
 function getDocumentNodeFromSchema(schema, options = {}) {
   const pathToDirectivesInExtensions = options.pathToDirectivesInExtensions;
   const typesMap = schema.getTypeMap();
@@ -12262,7 +12267,7 @@ function makeDirectiveNodes(schema, directiveValues) {
   return directiveNodes;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/comments.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/comments.js
 var MAX_LINE_LENGTH2 = 80;
 var commentsRegistry = {};
 function resetComments() {
@@ -12556,7 +12561,7 @@ function isBlank(str) {
   return leadingWhitespace2(str) === str.length;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/Interfaces.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/Interfaces.js
 var MapperKind;
 (function(MapperKind2) {
   MapperKind2["TYPE"] = "MapperKind.TYPE";
@@ -12586,7 +12591,7 @@ var MapperKind;
   MapperKind2["ENUM_VALUE"] = "MapperKind.ENUM_VALUE";
 })(MapperKind || (MapperKind = {}));
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/getObjectTypeFromTypeMap.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/getObjectTypeFromTypeMap.js
 function getObjectTypeFromTypeMap(typeMap, type) {
   if (type) {
     const maybeObjectType = typeMap[type.name];
@@ -12596,7 +12601,7 @@ function getObjectTypeFromTypeMap(typeMap, type) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/stub.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/stub.js
 function isNamedStub(type) {
   if ("getFields" in type) {
     const fields = type.getFields();
@@ -12624,7 +12629,7 @@ function getBuiltInForStub(type) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rewire.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rewire.js
 function rewireTypes(originalTypeMap, directives) {
   const referenceTypeMap = /* @__PURE__ */ Object.create(null);
   for (const typeName in originalTypeMap) {
@@ -12641,7 +12646,8 @@ function rewireTypes(originalTypeMap, directives) {
       continue;
     }
     if (newTypeMap[newName] != null) {
-      throw new Error(`Duplicate schema type name ${newName}`);
+      console.warn(`Duplicate schema type name ${newName} found; keeping the existing one found in the schema`);
+      continue;
     }
     newTypeMap[newName] = namedType;
   }
@@ -12772,7 +12778,7 @@ function rewireTypes(originalTypeMap, directives) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/transformInputValue.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/transformInputValue.js
 function transformInputValue(type, value, inputLeafValueTransformer = null, inputObjectValueTransformer = null) {
   if (value == null) {
     return value;
@@ -12813,7 +12819,7 @@ function parseInputValue(type, value) {
   });
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mapSchema.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mapSchema.js
 function mapSchema(schema, schemaMapper = {}) {
   const newTypeMap = mapArguments(mapFields(mapTypes(mapDefaultValues(mapEnumValues(mapTypes(mapDefaultValues(schema.getTypeMap(), schema, serializeInputValue), schema, schemaMapper, (type) => isLeafType(type)), schema, schemaMapper), schema, parseInputValue), schema, schemaMapper, (type) => !isLeafType(type)), schema, schemaMapper), schema, schemaMapper);
   const originalDirectives = schema.getDirectives();
@@ -13243,7 +13249,7 @@ function correctASTNodes(type) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/heal.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/heal.js
 function healSchema(schema) {
   healTypes(schema.getTypeMap(), schema.getDirectives());
   return schema;
@@ -13259,8 +13265,9 @@ function healTypes(originalTypeMap, directives) {
     if (actualName.startsWith("__")) {
       continue;
     }
-    if (actualName in actualNamedTypeMap) {
-      throw new Error(`Duplicate schema type name ${actualName}`);
+    if (actualNamedTypeMap[actualName] != null) {
+      console.warn(`Duplicate schema type name ${actualName} found; keeping the existing one found in the schema`);
+      continue;
     }
     actualNamedTypeMap[actualName] = namedType;
   }
@@ -13358,7 +13365,7 @@ function healTypes(originalTypeMap, directives) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachField.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachField.js
 function forEachField(schema, fn) {
   const typeMap = schema.getTypeMap();
   for (const typeName in typeMap) {
@@ -13373,7 +13380,7 @@ function forEachField(schema, fn) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachDefaultValue.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachDefaultValue.js
 function forEachDefaultValue(schema, fn) {
   const typeMap = schema.getTypeMap();
   for (const typeName in typeMap) {
@@ -13398,7 +13405,7 @@ function forEachDefaultValue(schema, fn) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mergeDeep.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mergeDeep.js
 function mergeDeep(sources, respectPrototype = false) {
   const target = sources[0] || {};
   const output = {};
@@ -13438,17 +13445,17 @@ function isObject(item) {
   return item && typeof item === "object" && !Array.isArray(item);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isAsyncIterable.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isAsyncIterable.js
 function isAsyncIterable3(value) {
   return typeof value === "object" && value != null && Symbol.asyncIterator in value && typeof value[Symbol.asyncIterator] === "function";
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isDocumentNode.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isDocumentNode.js
 function isDocumentNode(object) {
   return object && typeof object === "object" && "kind" in object && object.kind === Kind.DOCUMENT;
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/assertResolversPresent.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/assertResolversPresent.js
 function assertResolversPresent(schema, resolverValidationOptions = {}) {
   const { requireResolversForArgs, requireResolversForNonScalar, requireResolversForAllFields } = resolverValidationOptions;
   if (requireResolversForAllFields && (requireResolversForArgs || requireResolversForNonScalar)) {
@@ -13486,7 +13493,7 @@ To disable this validator, use:
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/checkForResolveTypeResolver.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/checkForResolveTypeResolver.js
 function checkForResolveTypeResolver(schema, requireResolversForResolveType) {
   mapSchema(schema, {
     [MapperKind.ABSTRACT_TYPE]: (type) => {
@@ -13504,7 +13511,7 @@ function checkForResolveTypeResolver(schema, requireResolversForResolveType) {
   });
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/extendResolversFromInterfaces.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/extendResolversFromInterfaces.js
 function extendResolversFromInterfaces(schema, resolvers) {
   const extendedResolvers = {};
   const typeMap = schema.getTypeMap();
@@ -13536,7 +13543,7 @@ function extendResolversFromInterfaces(schema, resolvers) {
   return extendedResolvers;
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/addResolversToSchema.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/addResolversToSchema.js
 function addResolversToSchema({ schema, resolvers: inputResolvers, defaultFieldResolver: defaultFieldResolver2, resolverValidationOptions = {}, inheritResolversFromInterfaces = false, updateResolversInPlace = false }) {
   const { requireResolversToMatchSchema = "error", requireResolversForResolveType } = resolverValidationOptions;
   const resolvers = inheritResolversFromInterfaces ? extendResolversFromInterfaces(schema, inputResolvers) : inputResolvers;
@@ -13795,7 +13802,7 @@ function setFieldProperties(field, propertiesObj) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/merge-resolvers.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/merge-resolvers.js
 function mergeResolvers(resolversDefinitions, options) {
   if (!resolversDefinitions || Array.isArray(resolversDefinitions) && resolversDefinitions.length === 0) {
     return {};
@@ -13829,7 +13836,7 @@ function mergeResolvers(resolversDefinitions, options) {
   return result;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/arguments.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/arguments.js
 function mergeArguments(args1, args2, config) {
   const result = deduplicateArguments([...args2, ...args1].filter(isSome));
   if (config && config.sort) {
@@ -13847,7 +13854,7 @@ function deduplicateArguments(args) {
   }, []);
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/directives.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/directives.js
 function directiveAlreadyExists(directivesArr, otherDirective) {
   return !!directivesArr.find((directive) => directive.name.value === otherDirective.name.value);
 }
@@ -13939,7 +13946,7 @@ function deduplicateLists(source, target, filterFn) {
   return source.concat(target.filter((val) => filterFn(val, source)));
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum-values.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum-values.js
 function mergeEnumValues(first, second, config) {
   if (config === null || config === void 0 ? void 0 : config.consistentEnumMerge) {
     const reversed = [];
@@ -13974,7 +13981,7 @@ function mergeEnumValues(first, second, config) {
   return result;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum.js
 function mergeEnum(e1, e2, config) {
   if (e2) {
     return {
@@ -13992,7 +13999,7 @@ function mergeEnum(e1, e2, config) {
   } : e1;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/utils.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/utils.js
 function isStringTypes(types) {
   return typeof types === "string";
 }
@@ -14047,7 +14054,7 @@ function defaultStringComparator(a, b) {
   return CompareVal.A_EQUALS_B;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/fields.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/fields.js
 function fieldAlreadyExists(fieldsArr, otherField, config) {
   const result = fieldsArr.find((field) => field.name.value === otherField.name.value);
   if (result && !(config === null || config === void 0 ? void 0 : config.ignoreFieldConflicts)) {
@@ -14119,7 +14126,7 @@ function safeChangeForFieldType(oldType, newType, ignoreNullability = false) {
   return false;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/input-type.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/input-type.js
 function mergeInputType(node, existingNode, config) {
   if (existingNode) {
     try {
@@ -14141,7 +14148,7 @@ function mergeInputType(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/interface.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/interface.js
 function mergeInterface(node, existingNode, config) {
   if (existingNode) {
     try {
@@ -14164,7 +14171,7 @@ function mergeInterface(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-named-type-array.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-named-type-array.js
 function alreadyExists(arr, other) {
   return !!arr.find((i) => i.name.value === other.name.value);
 }
@@ -14176,7 +14183,7 @@ function mergeNamedTypeArray(first = [], second = [], config = {}) {
   return result;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/type.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/type.js
 function mergeType(node, existingNode, config) {
   if (existingNode) {
     try {
@@ -14199,7 +14206,7 @@ function mergeType(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/scalar.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/scalar.js
 function mergeScalar(node, existingNode, config) {
   if (existingNode) {
     return {
@@ -14216,7 +14223,7 @@ function mergeScalar(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/union.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/union.js
 function mergeUnion(first, second, config) {
   if (second) {
     return {
@@ -14234,7 +14241,7 @@ function mergeUnion(first, second, config) {
   } : first;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/schema-def.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/schema-def.js
 var DEFAULT_OPERATION_TYPE_NAME_MAP = {
   query: "Query",
   mutation: "Mutation",
@@ -14265,7 +14272,7 @@ function mergeSchemaDefs(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-nodes.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-nodes.js
 var schemaDefSymbol = "SCHEMA_DEF_SYMBOL";
 function isNamedDefinitionNode(definitionNode) {
   return "name" in definitionNode;
@@ -14322,7 +14329,7 @@ function mergeGraphQLNodes(nodes, config) {
   return mergedResultMap;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-typedefs.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-typedefs.js
 function mergeTypeDefs(typeSource, config) {
   resetComments();
   const doc = {
@@ -14430,7 +14437,7 @@ function mergeGraphQLTypes(typeSource, config) {
   return mergedNodeDefinitions;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/extensions.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/extensions.js
 function mergeExtensions(extensions) {
   return mergeDeep(extensions);
 }
@@ -14472,7 +14479,7 @@ function applyExtensions(schema, extensions) {
   return schema;
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/makeExecutableSchema.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/makeExecutableSchema.js
 function makeExecutableSchema({ typeDefs, resolvers = {}, resolverValidationOptions = {}, inheritResolversFromInterfaces = false, updateResolversInPlace = false, schemaExtensions, ...otherOptions }) {
   if (typeof resolverValidationOptions !== "object") {
     throw new Error("Expected `resolverValidationOptions` to be an object");
@@ -14510,10 +14517,10 @@ function makeExecutableSchema({ typeDefs, resolvers = {}, resolverValidationOpti
   return schema;
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
 var crossUndiciFetch = __toESM(require_global_ponyfill(), 1);
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/processRequest.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/processRequest.js
 async function processRequest({ request, params, enveloped, fetchAPI, onResultProcessHooks }) {
   const document2 = enveloped.parse(params.query);
   enveloped.validate(enveloped.schema, document2);
@@ -14548,7 +14555,7 @@ async function processRequest({ request, params, enveloped, fetchAPI, onResultPr
   return resultProcessor(result, fetchAPI);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useCORS.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useCORS.js
 function getCORSHeadersByRequestAndOptions(request, corsOptions) {
   var _a2, _b;
   const headers = {};
@@ -14637,7 +14644,10 @@ function useCORS(options) {
         const headers = await getCORSResponseHeaders(request, corsOptionsFactory, serverContext);
         const response = new fetchAPI.Response(null, {
           status: 204,
-          headers
+          headers: {
+            ...headers,
+            "Content-Length": "0"
+          }
         });
         endResponse(response);
       }
@@ -14651,7 +14661,7 @@ function useCORS(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useHealthCheck.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useHealthCheck.js
 function useHealthCheck(options) {
   const id = (options === null || options === void 0 ? void 0 : options.id) || Date.now().toString();
   const logger = (options === null || options === void 0 ? void 0 : options.logger) || console;
@@ -14692,10 +14702,10 @@ function useHealthCheck(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/graphiqlHTML.js
-var graphiqlHTML_default = '<!DOCTYPE html><html lang=en><head><meta charset=utf-8><title>__TITLE__</title><link rel=icon href=https://www.graphql-yoga.com/favicon.ico><link rel=stylesheet href=https://unpkg.com/@graphql-yoga/graphiql@2.4.2/dist/style.css></head><body id=body class=no-focus-outline><noscript>You need to enable JavaScript to run this app.</noscript><div id=root></div><script type=module>import{renderYogaGraphiQL}from"https://unpkg.com/@graphql-yoga/graphiql@2.4.2/dist/yoga-graphiql.es.js";renderYogaGraphiQL(root,__OPTS__)<\/script></body></html>';
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/graphiqlHTML.js
+var graphiqlHTML_default = '<!DOCTYPE html><html lang=en><head><meta charset=utf-8><title>__TITLE__</title><link rel=icon href=https://www.graphql-yoga.com/favicon.ico><link rel=stylesheet href=https://unpkg.com/@graphql-yoga/graphiql@2.4.3/dist/style.css></head><body id=body class=no-focus-outline><noscript>You need to enable JavaScript to run this app.</noscript><div id=root></div><script type=module>import{renderYogaGraphiQL}from"https://unpkg.com/@graphql-yoga/graphiql@2.4.3/dist/yoga-graphiql.es.js";renderYogaGraphiQL(root,__OPTS__)<\/script></body></html>';
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useGraphiQL.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useGraphiQL.js
 function shouldRenderGraphiQL({ headers, method }) {
   var _a2;
   return method === "GET" && !!((_a2 = headers === null || headers === void 0 ? void 0 : headers.get("accept")) === null || _a2 === void 0 ? void 0 : _a2.includes("text/html"));
@@ -14746,7 +14756,7 @@ function useGraphiQL(config) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useRequestParser.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useRequestParser.js
 var DEFAULT_MATCHER = () => true;
 function useRequestParser(options) {
   const matchFn = options.match || DEFAULT_MATCHER;
@@ -14761,7 +14771,7 @@ function useRequestParser(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/utils.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/utils.js
 function parseURLSearchParams(requestBody) {
   const searchParams = new URLSearchParams(requestBody);
   const operationName = searchParams.get("operationName") || void 0;
@@ -14780,7 +14790,7 @@ function isContentTypeMatch(request, expectedContentType) {
   return contentType === expectedContentType || !!(contentType === null || contentType === void 0 ? void 0 : contentType.startsWith(`${expectedContentType};`));
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/GET.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/GET.js
 function isGETRequest(request) {
   return request.method === "GET";
 }
@@ -14789,7 +14799,7 @@ function parseGETRequest(request) {
   return parseURLSearchParams(searchParamsStr);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTJson.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTJson.js
 function isPOSTJsonRequest(request) {
   return request.method === "POST";
 }
@@ -14815,7 +14825,7 @@ function dset(obj, keys, val) {
   }
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTMultipart.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTMultipart.js
 function isPOSTMultipartRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "multipart/form-data");
 }
@@ -14855,7 +14865,7 @@ async function parsePOSTMultipartRequest(request) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTGraphQLString.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTGraphQLString.js
 function isPOSTGraphQLStringRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "application/graphql");
 }
@@ -14866,7 +14876,7 @@ async function parsePOSTGraphQLStringRequest(request) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useResultProcessor.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useResultProcessor.js
 function useResultProcessor(options) {
   const isMatch = options.match || (() => true);
   return {
@@ -14878,7 +14888,7 @@ function useResultProcessor(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/encodeString.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/encodeString.js
 var encodeString;
 if (globalThis.Buffer) {
   encodeString = function encodeStringWithBuffer(str) {
@@ -14891,7 +14901,7 @@ if (globalThis.Buffer) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/regular.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/regular.js
 function isRegularResult(request, result) {
   return !isAsyncIterable3(result);
 }
@@ -14909,7 +14919,7 @@ function processRegularResult(executionResult, fetchAPI) {
   return new fetchAPI.Response(decodedString, responseInit);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/push.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/push.js
 function isPushResult(request, result) {
   var _a2;
   return isAsyncIterable2(result) && !!((_a2 = request.headers.get("accept")) === null || _a2 === void 0 ? void 0 : _a2.includes("text/event-stream"));
@@ -14950,7 +14960,7 @@ function processPushResult(result, fetchAPI) {
   return new fetchAPI.Response(readableStream, responseInit);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/multipart.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/multipart.js
 function isMultipartResult(request, result) {
   var _a2;
   return isAsyncIterable2(result) && !!((_a2 = request.headers.get("accept")) === null || _a2 === void 0 ? void 0 : _a2.includes("multipart/mixed"));
@@ -14999,7 +15009,7 @@ function processMultipartResult(executionPatchResultIterable, fetchAPI) {
   return new fetchAPI.Response(readableStream, responseInit);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTFormUrlEncoded.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTFormUrlEncoded.js
 function isPOSTFormUrlEncodedRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "application/x-www-form-urlencoded");
 }
@@ -15008,7 +15018,7 @@ async function parsePOSTFormUrlEncodedRequest(request) {
   return parseURLSearchParams(requestBody);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/GraphQLYogaError.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/GraphQLYogaError.js
 function isAggregateError2(obj) {
   return obj != null && typeof obj === "object" && "errors" in obj;
 }
@@ -15034,7 +15044,7 @@ function handleError(error, errors = []) {
   return errors;
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckMethodForGraphQL.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckMethodForGraphQL.js
 function useCheckMethodForGraphQL() {
   return {
     onRequest({ request }) {
@@ -15054,7 +15064,7 @@ function useCheckMethodForGraphQL() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckGraphQLQueryParam.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckGraphQLQueryParam.js
 function useCheckGraphQLQueryParam() {
   return {
     onRequestParse() {
@@ -15091,7 +15101,7 @@ function useCheckGraphQLQueryParam() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useHTTPValidationError.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useHTTPValidationError.js
 function useHTTPValidationError() {
   return {
     onValidate() {
@@ -15109,7 +15119,7 @@ function useHTTPValidationError() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/usePreventMutationViaGET.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/usePreventMutationViaGET.js
 function usePreventMutationViaGET() {
   return {
     onParse() {
@@ -15150,7 +15160,7 @@ function usePreventMutationViaGET() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
 function getDefaultSchema() {
   return makeExecutableSchema({
     typeDefs: `
@@ -16557,11 +16567,11 @@ var manifest = {
   "/*404": [
     {
       type: "script",
-      href: "/assets/_...404_.f2f8b703.js"
+      href: "/assets/_...404_.50c23c0d.js"
     },
     {
       type: "script",
-      href: "/assets/entry-client.0c725a2b.js"
+      href: "/assets/entry-client.a0c5cc72.js"
     },
     {
       type: "style",
@@ -16571,11 +16581,11 @@ var manifest = {
   "/": [
     {
       type: "script",
-      href: "/assets/index.3eb2025e.js"
+      href: "/assets/index.005a81b9.js"
     },
     {
       type: "script",
-      href: "/assets/entry-client.0c725a2b.js"
+      href: "/assets/entry-client.a0c5cc72.js"
     },
     {
       type: "style",
@@ -16589,13 +16599,14 @@ var manifest = {
   "entry-client": [
     {
       type: "script",
-      href: "/assets/entry-client.0c725a2b.js"
+      href: "/assets/entry-client.a0c5cc72.js"
     },
     {
       type: "style",
       href: "/assets/entry-client.d870915a.css"
     }
-  ]
+  ],
+  "index.html": []
 };
 var ERROR = Symbol("error");
 var BRANCH = Symbol("branch");
@@ -16862,55 +16873,12 @@ function ErrorBoundary$1(props) {
   };
 }
 var SuspenseContext = createContext();
-function lazy(fn) {
-  let resolved;
-  let p;
-  let load = () => {
-    if (!p) {
-      p = fn();
-      p.then((mod) => resolved = mod.default);
-    }
-    return p;
-  };
-  const contexts = /* @__PURE__ */ new Set();
-  const wrap3 = (props) => {
-    load();
-    const id = sharedConfig.context.id.slice(0, -1);
-    if (resolved)
-      return resolved(props);
-    const ctx = useContext(SuspenseContext);
-    const track = {
-      loading: true,
-      error: void 0
-    };
-    if (ctx) {
-      ctx.resources.set(id, track);
-      contexts.add(ctx);
-    }
-    if (sharedConfig.context.async) {
-      sharedConfig.context.block(p.then(() => {
-        track.loading = false;
-        notifySuspense(contexts);
-      }));
-    }
-    return "";
-  };
-  wrap3.preload = load;
-  return wrap3;
-}
 function suspenseComplete(c) {
   for (const r of c.resources.values()) {
     if (r.loading)
       return false;
   }
   return true;
-}
-function notifySuspense(contexts) {
-  for (const c of contexts) {
-    if (suspenseComplete(c))
-      c.completed();
-  }
-  contexts.clear();
 }
 function useTransition() {
   return [() => false, (fn) => {
@@ -16993,6 +16961,7 @@ function Suspense(props) {
 var booleans = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "controls", "default", "disabled", "formnovalidate", "hidden", "indeterminate", "ismap", "loop", "multiple", "muted", "nomodule", "novalidate", "open", "playsinline", "readonly", "required", "reversed", "seamless", "selected"];
 var BooleanAttributes = /* @__PURE__ */ new Set(booleans);
 /* @__PURE__ */ new Set(["className", "value", "readOnly", "formNoValidate", "isMap", "noModule", "playsInline", ...booleans]);
+var ChildProperties = /* @__PURE__ */ new Set(["innerHTML", "textContent", "innerText", "children"]);
 var Aliases = {
   className: "class",
   htmlFor: "for"
@@ -17235,14 +17204,14 @@ function refParamsString() {
   REF_COUNT = 0;
   return result;
 }
-function toRefParam(index2) {
-  let mod = index2 % REF_START_CHARS_LEN;
+function toRefParam(index) {
+  let mod = index % REF_START_CHARS_LEN;
   let ref = REF_START_CHARS[mod];
-  index2 = (index2 - mod) / REF_START_CHARS_LEN;
-  while (index2 > 0) {
-    mod = index2 % REF_CHARS_LEN;
+  index = (index - mod) / REF_START_CHARS_LEN;
+  while (index > 0) {
+    mod = index % REF_CHARS_LEN;
     ref += REF_CHARS[mod];
-    index2 = (index2 - mod) / REF_CHARS_LEN;
+    index = (index - mod) / REF_CHARS_LEN;
   }
   return ref;
 }
@@ -17513,6 +17482,47 @@ function ssrStyle(value) {
   }
   return result;
 }
+function ssrElement(tag, props, children2, needsId) {
+  let result = `<${tag}${needsId ? ssrHydrationKey() : ""} `;
+  if (props == null)
+    props = {};
+  else if (typeof props === "function")
+    props = props();
+  const keys = Object.keys(props);
+  let classResolved;
+  for (let i = 0; i < keys.length; i++) {
+    const prop = keys[i];
+    if (ChildProperties.has(prop)) {
+      if (children2 === void 0)
+        children2 = prop === "innerHTML" ? props[prop] : escape(props[prop]);
+      continue;
+    }
+    const value = props[prop];
+    if (prop === "style") {
+      result += `style="${ssrStyle(value)}"`;
+    } else if (prop === "class" || prop === "className" || prop === "classList") {
+      if (classResolved)
+        continue;
+      let n;
+      result += `class="${(n = props.class) ? n + " " : ""}${(n = props.className) ? n + " " : ""}${ssrClassList(props.classList)}"`;
+      classResolved = true;
+    } else if (BooleanAttributes.has(prop)) {
+      if (value)
+        result += prop;
+      else
+        continue;
+    } else if (value == void 0 || prop === "ref" || prop.slice(0, 2) === "on") {
+      continue;
+    } else {
+      result += `${Aliases[prop] || prop}="${escape(value, true)}"`;
+    }
+    if (i !== keys.length - 1)
+      result += " ";
+  }
+  return {
+    t: result + `>${resolveSSRNode(children2)}</${tag}>`
+  };
+}
 function ssrAttribute(key, value, isBoolean) {
   return isBoolean ? value ? " " + key : "" : value != null ? ` ${key}="${value}"` : "";
 }
@@ -17525,6 +17535,14 @@ function escape(s, attr) {
   if (t !== "string") {
     if (!attr && t === "function")
       return escape(s(), attr);
+    if (!attr && Array.isArray(s)) {
+      let r = "";
+      for (let i = 0; i < s.length; i++)
+        r += resolveSSRNode(escape(s[i], attr));
+      return {
+        t: r
+      };
+    }
     if (attr && t === "boolean")
       return String(s);
     return s;
@@ -17610,9 +17628,9 @@ function injectAssets(assets, html) {
 }
 function injectScripts(html, scripts, nonce) {
   const tag = `<script${nonce ? ` nonce="${nonce}"` : ""}>${scripts}<\/script>`;
-  const index2 = html.indexOf("<!--xs-->");
-  if (index2 > -1) {
-    return html.slice(0, index2) + tag + html.slice(index2);
+  const index = html.indexOf("<!--xs-->");
+  if (index > -1) {
+    return html.slice(0, index) + tag + html.slice(index);
   }
   return html + tag;
 }
@@ -17666,44 +17684,6 @@ function replacePlaceholder(html, key, value) {
   }
   return html.slice(0, first) + value + html.slice(nextRegex.lastIndex);
 }
-function ssrSpread(props, isSVG, skipChildren) {
-  let result = "";
-  if (props == null)
-    return result;
-  if (typeof props === "function")
-    props = props();
-  const keys = Object.keys(props);
-  let classResolved;
-  for (let i = 0; i < keys.length; i++) {
-    const prop = keys[i];
-    if (prop === "children") {
-      !skipChildren && console.warn(`SSR currently does not support spread children.`);
-      continue;
-    }
-    const value = props[prop];
-    if (prop === "style") {
-      result += `style="${ssrStyle(value)}"`;
-    } else if (prop === "class" || prop === "className" || prop === "classList") {
-      if (classResolved)
-        continue;
-      let n;
-      result += `class="${(n = props.class) ? n + " " : ""}${(n = props.className) ? n + " " : ""}${ssrClassList(props.classList)}"`;
-      classResolved = true;
-    } else if (BooleanAttributes.has(prop)) {
-      if (value)
-        result += prop;
-      else
-        continue;
-    } else if (value == void 0 || prop === "ref" || prop.slice(0, 2) === "on") {
-      continue;
-    } else {
-      result += `${Aliases[prop] || prop}="${escape(value, true)}"`;
-    }
-    if (i !== keys.length - 1)
-      result += " ";
-  }
-  return result;
-}
 var isServer = true;
 var FETCH_EVENT = "$FETCH";
 function getRouteMatches$1(routes, path, method) {
@@ -17714,12 +17694,12 @@ function getRouteMatches$1(routes, path, method) {
       if (segments.length < matchSegments.length || !route.wildcard && segments.length > matchSegments.length) {
         continue;
       }
-      for (let index2 = 0; index2 < matchSegments.length; index2++) {
-        const match = matchSegments[index2];
+      for (let index = 0; index < matchSegments.length; index++) {
+        const match = matchSegments[index];
         if (!match) {
           continue;
         }
-        if (segments[index2] !== match) {
+        if (segments[index] !== match) {
           continue routeLoop;
         }
       }
@@ -17728,11 +17708,11 @@ function getRouteMatches$1(routes, path, method) {
         return;
       }
       const params = {};
-      for (const { type, name, index: index2 } of route.params) {
+      for (const { type, name, index } of route.params) {
         if (type === ":") {
-          params[name] = segments[index2];
+          params[name] = segments[index];
         } else {
-          params[name] = segments.slice(index2).join("/");
+          params[name] = segments.slice(index).join("/");
         }
       }
       return { handler: handler2, params };
@@ -17759,13 +17739,96 @@ async function internalFetch(route, init) {
   const response = await handler2.handler(apiEvent);
   return response;
 }
+var XSolidStartLocationHeader = "x-solidstart-location";
+var LocationHeader = "Location";
+var ContentTypeHeader = "content-type";
+var XSolidStartResponseTypeHeader = "x-solidstart-response-type";
+var XSolidStartContentTypeHeader = "x-solidstart-content-type";
+var XSolidStartOrigin = "x-solidstart-origin";
+var JSONResponseType = "application/json";
+function redirect(url, init = 302) {
+  let responseInit = init;
+  if (typeof responseInit === "number") {
+    responseInit = { status: responseInit };
+  } else if (typeof responseInit.status === "undefined") {
+    responseInit.status = 302;
+  }
+  if (url === "") {
+    url = "/";
+  }
+  let headers = new Headers(responseInit.headers);
+  headers.set(LocationHeader, url);
+  const response = new Response(null, {
+    ...responseInit,
+    headers
+  });
+  return response;
+}
+var redirectStatusCodes = /* @__PURE__ */ new Set([204, 301, 302, 303, 307, 308]);
+function isRedirectResponse(response) {
+  return response && response instanceof Response && redirectStatusCodes.has(response.status);
+}
+var ResponseError = class extends Error {
+  constructor(response) {
+    let message = JSON.stringify({
+      $type: "response",
+      status: response.status,
+      message: response.statusText,
+      headers: [...response.headers.entries()]
+    });
+    super(message);
+    __publicField(this, "status");
+    __publicField(this, "headers");
+    __publicField(this, "name", "ResponseError");
+    __publicField(this, "ok");
+    __publicField(this, "statusText");
+    __publicField(this, "redirected");
+    __publicField(this, "url");
+    __publicField(this, "response");
+    __publicField(this, "type");
+    __publicField(this, "bodyUsed");
+    this.status = response.status;
+    this.headers = new Map([...response.headers.entries()]);
+    this.url = response.url;
+    this.ok = response.ok;
+    this.statusText = response.statusText;
+    this.redirected = response.redirected;
+    this.bodyUsed = false;
+    this.type = response.type;
+    this.response = () => response;
+  }
+  clone() {
+    return this.response();
+  }
+  get body() {
+    return this.response().body;
+  }
+  async arrayBuffer() {
+    return await this.response().arrayBuffer();
+  }
+  async blob() {
+    return await this.response().blob();
+  }
+  async formData() {
+    return await this.response().formData();
+  }
+  async text() {
+    return await this.response().text();
+  }
+  async json() {
+    return await this.response().json();
+  }
+};
 function renderAsync(fn, options) {
   return () => async (event) => {
     let pageEvent = createPageEvent(event);
     let markup = await renderToStringAsync(() => fn(pageEvent), options);
     if (pageEvent.routerContext.url) {
-      return Response.redirect(new URL(pageEvent.routerContext.url, pageEvent.request.url), 302);
+      return redirect(pageEvent.routerContext.url, {
+        headers: pageEvent.responseHeaders
+      });
     }
+    markup = handleIslandsRouting(pageEvent, markup);
     return new Response(markup, {
       status: pageEvent.getStatusCode(),
       headers: pageEvent.responseHeaders
@@ -17798,6 +17861,9 @@ function createPageEvent(event) {
   });
   return pageEvent;
 }
+function handleIslandsRouting(pageEvent, markup) {
+  return markup;
+}
 var MetaContext = createContext();
 var cascadingTags = ["title", "meta"];
 var getTagType = (tag) => tag.tag + (tag.name ? `.${tag.name}"` : "");
@@ -17811,27 +17877,27 @@ var MetaProvider = (props) => {
           cascadedTagInstances.set(tagType, []);
         }
         let instances = cascadedTagInstances.get(tagType);
-        let index2 = instances.length;
+        let index = instances.length;
         instances = [...instances, tag];
         cascadedTagInstances.set(tagType, instances);
-        return index2;
+        return index;
       }
       return -1;
     },
-    removeClientTag: (tag, index2) => {
+    removeClientTag: (tag, index) => {
       const tagName = getTagType(tag);
       if (tag.ref) {
         const t = cascadedTagInstances.get(tagName);
         if (t) {
           if (tag.ref.parentNode) {
             tag.ref.parentNode.removeChild(tag.ref);
-            for (let i = index2 - 1; i >= 0; i--) {
+            for (let i = index - 1; i >= 0; i--) {
               if (t[i] != null) {
                 document.head.appendChild(t[i].ref);
               }
             }
           }
-          t[index2] = null;
+          t[index] = null;
           cascadedTagInstances.set(tagName, t);
         } else {
           if (tag.ref.parentNode) {
@@ -17847,13 +17913,13 @@ var MetaProvider = (props) => {
         tags = []
       } = props;
       if (cascadingTags.indexOf(tagDesc.tag) !== -1) {
-        const index2 = tags.findIndex((prev) => {
+        const index = tags.findIndex((prev) => {
           const prevName = prev.props.name || prev.props.property;
           const nextName = tagDesc.props.name || tagDesc.props.property;
           return prev.tag === tagDesc.tag && prevName === nextName;
         });
-        if (index2 !== -1) {
-          tags.splice(index2, 1);
+        if (index !== -1) {
+          tags.splice(index, 1);
         }
       }
       tags.push(tagDesc);
@@ -18067,10 +18133,10 @@ function createRoutes(routeDef, base = "", fallback) {
     return acc;
   }, []);
 }
-function createBranch(routes, index2 = 0) {
+function createBranch(routes, index = 0) {
   return {
     routes,
-    score: scoreRoute(routes[routes.length - 1]) * 1e4 - index2,
+    score: scoreRoute(routes[routes.length - 1]) * 1e4 - index,
     matcher(location) {
       const matches = [];
       for (let i = routes.length - 1; i >= 0; i--) {
@@ -18403,61 +18469,15 @@ var FormError = class extends ServerError {
     this.fieldErrors = fieldErrors;
   }
 };
-var XSolidStartLocationHeader = "x-solidstart-location";
-var LocationHeader = "Location";
-var ContentTypeHeader = "content-type";
-var XSolidStartResponseTypeHeader = "x-solidstart-response-type";
-var XSolidStartContentTypeHeader = "x-solidstart-content-type";
-var XSolidStartOrigin = "x-solidstart-origin";
-var JSONResponseType = "application/json";
-var redirectStatusCodes = /* @__PURE__ */ new Set([204, 301, 302, 303, 307, 308]);
-function isRedirectResponse(response) {
-  return response && response instanceof Response && redirectStatusCodes.has(response.status);
-}
-var ResponseError = class extends Error {
-  constructor(response) {
-    let message = JSON.stringify({
-      $type: "response",
-      status: response.status,
-      message: response.statusText,
-      headers: [...response.headers.entries()]
-    });
-    super(message);
-    this.name = "ResponseError";
-    this.status = response.status;
-    this.headers = new Map([...response.headers.entries()]);
-    this.url = response.url;
-    this.ok = response.ok;
-    this.statusText = response.statusText;
-    this.redirected = response.redirected;
-    this.bodyUsed = false;
-    this.type = response.type;
-    this.response = () => response;
-  }
-  clone() {
-    return this.response();
-  }
-  get body() {
-    return this.response().body;
-  }
-  async arrayBuffer() {
-    return await this.response().arrayBuffer();
-  }
-  async blob() {
-    return await this.response().blob();
-  }
-  async formData() {
-    return await this.response().formData();
-  }
-  async text() {
-    return await this.response().text();
-  }
-  async json() {
-    return await this.response().json();
-  }
-};
 var ServerContext = createContext({});
-var _tmpl$$6 = ["<div", ' style="', '"><div style="', '"><p style="', '" id="error-message">', '</p><button id="reset-errors" style="', '">Clear errors and retry</button><pre style="', '">', "</pre></div></div>"];
+function Routes(props) {
+  return createComponent(Routes$1, {
+    get children() {
+      return props.children;
+    }
+  });
+}
+var _tmpl$$5 = ["<div", ' style="', '"><div style="', '"><p style="', '" id="error-message">', '</p><button id="reset-errors" style="', '">Clear errors and retry</button><pre style="', '">', "</pre></div></div>"];
 function ErrorBoundary(props) {
   return createComponent(ErrorBoundary$1, {
     fallback: (e) => {
@@ -18481,243 +18501,9 @@ function ErrorBoundary(props) {
   });
 }
 function ErrorMessage(props) {
-  return ssr(_tmpl$$6, ssrHydrationKey(), "padding:16px", "background-color:rgba(252, 165, 165);color:rgb(153, 27, 27);border-radius:5px;overflow:scroll;padding:16px;margin-bottom:8px", "font-weight:bold", escape(props.error.message), "color:rgba(252, 165, 165);background-color:rgb(153, 27, 27);border-radius:5px;padding:4px 8px", "margin-top:8px;width:100%", escape(props.error.stack));
+  return ssr(_tmpl$$5, ssrHydrationKey(), "padding:16px", "background-color:rgba(252, 165, 165);color:rgb(153, 27, 27);border-radius:5px;overflow:scroll;padding:16px;margin-bottom:8px", "font-weight:bold", escape(props.error.message), "color:rgba(252, 165, 165);background-color:rgb(153, 27, 27);border-radius:5px;padding:4px 8px", "margin-top:8px;width:100%", escape(props.error.stack));
 }
-var routesConfig = {
-  routes: [{
-    component: lazy(() => Promise.resolve().then(() => ____404_)),
-    path: "/*404"
-  }, {
-    component: lazy(() => Promise.resolve().then(() => index)),
-    path: "/"
-  }],
-  routeLayouts: {
-    "/*404": {
-      "id": "/*404",
-      "layouts": []
-    },
-    "/": {
-      "id": "/",
-      "layouts": []
-    }
-  }
-};
-var fileRoutes = routesConfig.routes;
-var routeLayouts = routesConfig.routeLayouts;
-var FileRoutes = () => {
-  return fileRoutes;
-};
-var _tmpl$$5 = ["<link", ' rel="stylesheet"', ">"];
-var _tmpl$2$1 = ["<link", ' rel="modulepreload"', ">"];
-function getAssetsFromManifest(manifest2, routerContext) {
-  const match = routerContext.matches.reduce((memo, m) => {
-    if (m.length) {
-      const fullPath = m.reduce((previous, match2) => previous + match2.originalPath, "");
-      const route = routeLayouts[fullPath];
-      if (route) {
-        memo.push(...manifest2[route.id] || []);
-        const layoutsManifestEntries = route.layouts.flatMap((manifestKey) => manifest2[manifestKey] || []);
-        memo.push(...layoutsManifestEntries);
-      }
-    }
-    return memo;
-  }, []);
-  match.push(...manifest2["entry-client"] || []);
-  const links = match.reduce((r, src) => {
-    r[src.href] = src.type === "style" ? ssr(_tmpl$$5, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : src.type === "script" ? ssr(_tmpl$2$1, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : void 0;
-    return r;
-  }, {});
-  return Object.values(links);
-}
-function Links() {
-  const context = useContext(ServerContext);
-  return createComponent(Assets, {
-    get children() {
-      return getAssetsFromManifest(context.env.manifest, context.routerContext);
-    }
-  });
-}
-function Meta() {
-  const context = useContext(ServerContext);
-  return createComponent(Assets, {
-    get children() {
-      return ssr(renderTags(context.tags));
-    }
-  });
-}
-var _tmpl$$4 = ["<script", ' type="module" async', "><\/script>"];
-var isDev = false;
-var isIslands = false;
-function getEntryClient(manifest2) {
-  const entry = manifest2["entry-client"][0];
-  return ssr(_tmpl$$4, ssrHydrationKey(), ssrAttribute("src", escape(entry.href, true), false));
-}
-function Scripts() {
-  const context = useContext(ServerContext);
-  return [createComponent(HydrationScript, {}), isIslands, createComponent(NoHydration, {
-    get children() {
-      return getEntryClient(context.env.manifest);
-    }
-  }), isDev];
-}
-var spread = (props, isSvg, skipChildren) => ssrSpread(props, isSvg, skipChildren);
-function Html(props) {
-  {
-    return `<html ${spread(props, false, true)}>
-        ${resolveSSRNode(children(() => props.children))}
-      </html>
-    `;
-  }
-}
-function Head(props) {
-  {
-    return `<head ${spread(props, false, true)}>
-        ${resolveSSRNode(children(() => [props.children, createComponent(Meta, {}), createComponent(Links, {})]))}
-      </head>
-    `;
-  }
-}
-function Body(props) {
-  {
-    return `<body ${spread(props, false, true)}>${resolveSSRNode(children(() => props.children))}</body>`;
-  }
-}
-function Routes(props) {
-  return createComponent(Routes$1, {
-    get children() {
-      return props.children;
-    }
-  });
-}
-var _tmpl$$3 = ["<a", ' href="/">Index</a>'];
-var _tmpl$2 = ["<a", ' href="/about">About</a>'];
-function Root() {
-  return createComponent(Html, {
-    lang: "en",
-    get children() {
-      return [createComponent(Head, {
-        get children() {
-          return [createComponent(Title, {
-            children: "SolidStart - Bare"
-          }), createComponent(Meta$1, {
-            charset: "utf-8"
-          }), createComponent(Meta$1, {
-            name: "viewport",
-            content: "width=device-width, initial-scale=1"
-          })];
-        }
-      }), createComponent(Body, {
-        get children() {
-          return [createComponent(Suspense, {
-            get children() {
-              return createComponent(ErrorBoundary, {
-                get children() {
-                  return [ssr(_tmpl$$3, ssrHydrationKey()), ssr(_tmpl$2, ssrHydrationKey()), createComponent(Routes, {
-                    get children() {
-                      return createComponent(FileRoutes, {});
-                    }
-                  })];
-                }
-              });
-            }
-          }), createComponent(Scripts, {})];
-        }
-      })];
-    }
-  });
-}
-var server$1 = createServer({
-  schema: {
-    typeDefs: `
-      type Query {
-        hello: String
-      }
-    `,
-    resolvers: {
-      Query: {
-        hello: () => "Hello from Yoga!"
-      }
-    }
-  }
-});
-var handler = ({ request }) => {
-  return server$1.handleRequest(request);
-};
-var get = handler;
-var post = handler;
-var api = [
-  {
-    get: "skip",
-    path: "/*404"
-  },
-  {
-    get,
-    post,
-    path: "/graphql"
-  },
-  {
-    get: "skip",
-    path: "/"
-  }
-];
-function routeToMatchRoute(route) {
-  const segments = route.path.split("/").filter(Boolean);
-  const params = [];
-  const matchSegments = [];
-  let score = route.path.endsWith("/") ? 4 : 0;
-  let wildcard = false;
-  for (const [index2, segment] of segments.entries()) {
-    if (segment[0] === ":") {
-      const name = segment.slice(1);
-      score += 3;
-      params.push({
-        type: ":",
-        name,
-        index: index2
-      });
-      matchSegments.push(null);
-    } else if (segment[0] === "*") {
-      params.push({
-        type: "*",
-        name: segment.slice(1),
-        index: index2
-      });
-      wildcard = true;
-    } else {
-      score += 4;
-      matchSegments.push(segment);
-    }
-  }
-  return {
-    ...route,
-    score,
-    params,
-    matchSegments,
-    wildcard
-  };
-}
-var allRoutes = api.map(routeToMatchRoute).sort((a, b) => b.score - a.score);
-registerApiRoutes(allRoutes);
-function getApiHandler(url, method) {
-  return getRouteMatches$1(allRoutes, url.pathname, method.toLowerCase());
-}
-var apiRoutes = ({ forward }) => {
-  return async (event) => {
-    let apiHandler = getApiHandler(new URL(event.request.url), event.request.method);
-    if (apiHandler) {
-      let apiEvent = Object.freeze({
-        request: event.request,
-        params: apiHandler.params,
-        env: event.env,
-        $type: FETCH_EVENT,
-        fetch: internalFetch
-      });
-      return await apiHandler.handler(apiEvent);
-    }
-    return await forward(event);
-  };
-};
-var server$2 = (fn) => {
+var server$ = (fn) => {
   throw new Error("Should be compiled away");
 };
 async function parseRequest(event) {
@@ -18753,7 +18539,7 @@ async function parseRequest(event) {
         throw new Error(`Error parsing request body: ${text}`);
       }
     } else if (contentType.includes("form")) {
-      let formData = await request.formData();
+      let formData = await request.clone().formData();
       args = [formData, event];
     }
   }
@@ -18824,6 +18610,7 @@ function respondWith(request, data, responseType) {
       }
     );
   } else if (data instanceof Error) {
+    console.error(data);
     return new Response(
       JSON.stringify({
         error: {
@@ -18861,10 +18648,10 @@ function respondWith(request, data, responseType) {
 }
 async function handleServerRequest(event) {
   const url = new URL(event.request.url);
-  if (server$2.hasHandler(url.pathname)) {
+  if (server$.hasHandler(url.pathname)) {
     try {
       let [name, args] = await parseRequest(event);
-      let handler2 = server$2.getHandler(name);
+      let handler2 = server$.getHandler(name);
       if (!handler2) {
         throw {
           status: 404,
@@ -18880,10 +18667,10 @@ async function handleServerRequest(event) {
   return null;
 }
 var handlers = /* @__PURE__ */ new Map();
-server$2.createHandler = (_fn, hash) => {
+server$.createHandler = (_fn, hash) => {
   let fn = function(...args) {
     let ctx;
-    if (typeof this === "object" && this.request instanceof Request) {
+    if (typeof this === "object") {
       ctx = this;
     } else if (sharedConfig.context && sharedConfig.context.requestContext) {
       ctx = sharedConfig.context.requestContext;
@@ -18916,20 +18703,274 @@ server$2.createHandler = (_fn, hash) => {
   };
   return fn;
 };
-server$2.registerHandler = function(route, handler2) {
+server$.registerHandler = function(route, handler2) {
   handlers.set(route, handler2);
 };
-server$2.getHandler = function(route) {
+server$.getHandler = function(route) {
   return handlers.get(route);
 };
-server$2.hasHandler = function(route) {
+server$.hasHandler = function(route) {
   return handlers.has(route);
 };
-server$2.fetch = internalFetch;
+server$.fetch = internalFetch;
+function HttpStatusCode(props) {
+  const context = useContext(ServerContext);
+  {
+    context.setStatusCode(props.code);
+  }
+  onCleanup(() => {
+    {
+      context.setStatusCode(200);
+    }
+  });
+  return null;
+}
+var _tmpl$$4 = ["<main", "><!--#-->", "<!--/--><!--#-->", '<!--/--><h1>Page Not Found</h1><p>Visit <a href="https://docs.solidjs.com/start" target="_blank">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>'];
+function NotFound() {
+  return ssr(_tmpl$$4, ssrHydrationKey(), escape(createComponent(Title, {
+    children: "Not Found"
+  })), escape(createComponent(HttpStatusCode, {
+    code: 404
+  })));
+}
+var _tmpl$$3 = ["<button", ' class="increment">Clicks: <!--#-->', "<!--/--></button>"];
+function Counter() {
+  const [count, setCount] = createSignal(0);
+  return ssr(_tmpl$$3, ssrHydrationKey(), escape(count));
+}
+var _tmpl$$2 = ["<main", "><!--#-->", "<!--/--><h1>Hello world!</h1><!--#-->", '<!--/--><p>Visit <a href="https://docs.solidjs.com/start" target="_blank">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>'];
+function Home() {
+  return ssr(_tmpl$$2, ssrHydrationKey(), escape(createComponent(Title, {
+    children: "Hello World"
+  })), escape(createComponent(Counter, {})));
+}
+var routesConfig = {
+  routes: [{
+    component: NotFound,
+    path: "/*404"
+  }, {
+    component: Home,
+    path: "/"
+  }],
+  routeLayouts: {
+    "/*404": {
+      "id": "/*404",
+      "layouts": []
+    },
+    "/": {
+      "id": "/",
+      "layouts": []
+    }
+  }
+};
+var FileRoutes = () => {
+  return routesConfig.routes;
+};
+var _tmpl$$1 = ["<link", ' rel="stylesheet"', ">"];
+var _tmpl$2$1 = ["<link", ' rel="modulepreload"', ">"];
+function getAssetsFromManifest(manifest2, routerContext) {
+  const match = routerContext.matches.reduce((memo, m) => {
+    if (m.length) {
+      const fullPath = m.reduce((previous, match2) => previous + match2.originalPath, "");
+      const route = routesConfig.routeLayouts[fullPath];
+      if (route) {
+        memo.push(...manifest2[route.id] || []);
+        const layoutsManifestEntries = route.layouts.flatMap((manifestKey) => manifest2[manifestKey] || []);
+        memo.push(...layoutsManifestEntries);
+      }
+    }
+    return memo;
+  }, []);
+  match.push(...manifest2["entry-client"] || []);
+  const links = match.reduce((r, src) => {
+    r[src.href] = src.type === "style" ? ssr(_tmpl$$1, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : src.type === "script" ? ssr(_tmpl$2$1, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : void 0;
+    return r;
+  }, {});
+  return Object.values(links);
+}
+function Links() {
+  const context = useContext(ServerContext);
+  return createComponent(Assets, {
+    get children() {
+      return getAssetsFromManifest(context.env.manifest, context.routerContext);
+    }
+  });
+}
+function Meta() {
+  const context = useContext(ServerContext);
+  return createComponent(Assets, {
+    get children() {
+      return ssr(renderTags(context.tags));
+    }
+  });
+}
+var _tmpl$4 = ["<script", ' type="module" async', "><\/script>"];
+var isDev = false;
+var isIslands = false;
+function Scripts() {
+  const context = useContext(ServerContext);
+  return [createComponent(HydrationScript, {}), isIslands, createComponent(NoHydration, {
+    get children() {
+      return ssr(_tmpl$4, ssrHydrationKey(), ssrAttribute("src", escape(context.env.manifest["entry-client"][0].href, true), false));
+    }
+  }), isDev];
+}
+function Html(props) {
+  {
+    return ssrElement("html", props, void 0, false);
+  }
+}
+function Head(props) {
+  {
+    return ssrElement("head", props, () => [props.children, createComponent(Meta, {}), createComponent(Links, {})], false);
+  }
+}
+function Body(props) {
+  {
+    return ssrElement("body", props, () => props.children, false);
+  }
+}
+var _tmpl$ = ["<a", ' href="/">Index</a>'];
+var _tmpl$2 = ["<a", ' href="/about">About</a>'];
+function Root() {
+  return createComponent(Html, {
+    lang: "en",
+    get children() {
+      return [createComponent(Head, {
+        get children() {
+          return [createComponent(Title, {
+            children: "SolidStart - Bare"
+          }), createComponent(Meta$1, {
+            charset: "utf-8"
+          }), createComponent(Meta$1, {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1"
+          })];
+        }
+      }), createComponent(Body, {
+        get children() {
+          return [createComponent(Suspense, {
+            get children() {
+              return createComponent(ErrorBoundary, {
+                get children() {
+                  return [ssr(_tmpl$, ssrHydrationKey()), ssr(_tmpl$2, ssrHydrationKey()), createComponent(Routes, {
+                    get children() {
+                      return createComponent(FileRoutes, {});
+                    }
+                  })];
+                }
+              });
+            }
+          }), createComponent(Scripts, {})];
+        }
+      })];
+    }
+  });
+}
+var server$1 = createServer({
+  schema: {
+    typeDefs: `
+      type Query {
+        hello: String
+      }
+    `,
+    resolvers: {
+      Query: {
+        hello: () => "Hello from Yoga!"
+      }
+    }
+  }
+});
+var handler = ({ request }) => {
+  return server$1.handleRequest(request);
+};
+var get = handler;
+var post = handler;
+var api = [
+  {
+    get: "skip",
+    path: "/*404"
+  },
+  {
+    get,
+    post,
+    path: "/graphql"
+  },
+  {
+    get: "skip",
+    path: "/"
+  }
+];
+function routeToMatchRoute(route) {
+  const segments = route.path.split("/").filter(Boolean);
+  const params = [];
+  const matchSegments = [];
+  let score = route.path.endsWith("/") ? 4 : 0;
+  let wildcard = false;
+  for (const [index, segment] of segments.entries()) {
+    if (segment[0] === ":") {
+      const name = segment.slice(1);
+      score += 3;
+      params.push({
+        type: ":",
+        name,
+        index
+      });
+      matchSegments.push(null);
+    } else if (segment[0] === "*") {
+      params.push({
+        type: "*",
+        name: segment.slice(1),
+        index
+      });
+      wildcard = true;
+    } else {
+      score += 4;
+      matchSegments.push(segment);
+    }
+  }
+  return {
+    ...route,
+    score,
+    params,
+    matchSegments,
+    wildcard
+  };
+}
+var allRoutes = api.map(routeToMatchRoute).sort((a, b) => b.score - a.score);
+registerApiRoutes(allRoutes);
+function getApiHandler(url, method) {
+  return getRouteMatches$1(allRoutes, url.pathname, method.toLowerCase());
+}
+var apiRoutes = ({ forward }) => {
+  return async (event) => {
+    let apiHandler = getApiHandler(new URL(event.request.url), event.request.method);
+    if (apiHandler) {
+      let apiEvent = Object.freeze({
+        request: event.request,
+        params: apiHandler.params,
+        env: event.env,
+        $type: FETCH_EVENT,
+        fetch: internalFetch
+      });
+      try {
+        return await apiHandler.handler(apiEvent);
+      } catch (error) {
+        if (error instanceof Response) {
+          return error;
+        }
+        return new Response(JSON.stringify(error), {
+          status: 500
+        });
+      }
+    }
+    return await forward(event);
+  };
+};
 var inlineServerFunctions = ({ forward }) => {
   return async (event) => {
     const url = new URL(event.request.url);
-    if (server$2.hasHandler(url.pathname)) {
+    if (server$.hasHandler(url.pathname)) {
       let contentType = event.request.headers.get(ContentTypeHeader);
       let origin = event.request.headers.get(XSolidStartOrigin);
       let formRequestBody;
@@ -18999,11 +19040,12 @@ function StartRouter(props) {
   return createComponent(Router, props);
 }
 var docType = ssr("<!DOCTYPE html>");
-var StartServer = ({
+function StartServer({
   event
-}) => {
+}) {
   const parsed = new URL(event.request.url);
   const path = parsed.pathname + parsed.search;
+  sharedConfig.context.requestContext = event;
   return createComponent(ServerContext.Provider, {
     value: event,
     get children() {
@@ -19022,7 +19064,9 @@ var StartServer = ({
               return event.prevUrl;
             },
             data: dataFn,
-            routes: fileRoutes,
+            get routes() {
+              return routesConfig.routes;
+            },
             get children() {
               return [docType, createComponent(Root, {})];
             }
@@ -19031,49 +19075,10 @@ var StartServer = ({
       });
     }
   });
-};
+}
 var entryServer = createHandler(renderAsync((event) => createComponent(StartServer, {
   event
 })));
-function HttpStatusCode(props) {
-  const context = useContext(ServerContext);
-  {
-    context.setStatusCode(props.code);
-  }
-  onCleanup(() => {
-    {
-      context.setStatusCode(200);
-    }
-  });
-  return null;
-}
-var _tmpl$$2 = ["<main", "><!--#-->", "<!--/--><!--#-->", '<!--/--><h1>Page Not Found</h1><p>Visit <a href="https://docs.solidjs.com/start" target="_blank">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>'];
-function NotFound() {
-  return ssr(_tmpl$$2, ssrHydrationKey(), escape(createComponent(Title, {
-    children: "Not Found"
-  })), escape(createComponent(HttpStatusCode, {
-    code: 404
-  })));
-}
-var ____404_ = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: NotFound
-}, Symbol.toStringTag, { value: "Module" }));
-var _tmpl$$1 = ["<button", ' class="increment">Clicks: <!--#-->', "<!--/--></button>"];
-function Counter() {
-  const [count, setCount] = createSignal(0);
-  return ssr(_tmpl$$1, ssrHydrationKey(), escape(count));
-}
-var _tmpl$ = ["<main", "><!--#-->", "<!--/--><h1>Hello world!</h1><!--#-->", '<!--/--><p>Visit <a href="https://docs.solidjs.com/start" target="_blank">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>'];
-function Home() {
-  return ssr(_tmpl$, ssrHydrationKey(), escape(createComponent(Title, {
-    children: "Hello World"
-  })), escape(createComponent(Counter, {})));
-}
-var index = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: Home
-}, Symbol.toStringTag, { value: "Module" }));
 var assetManifest = JSON.parse(manifestJSON);
 var server = {
   async fetch(request, env, ctx) {

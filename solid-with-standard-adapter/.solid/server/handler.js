@@ -1,5 +1,5 @@
-import { renderToStringAsync, isServer, createComponent, spread as spread$1, ssr, ssrHydrationKey, escape, Assets, ssrAttribute, HydrationScript, NoHydration, resolveSSRNode, ssrSpread } from 'solid-js/web';
-import { createContext, createUniqueId, useContext, createRenderEffect, onCleanup, createSignal, getOwner, runWithOwner, createMemo, useTransition, untrack, createComponent as createComponent$1, on, resetErrorBoundaries, children, createRoot, Show, ErrorBoundary as ErrorBoundary$1, lazy, Suspense, sharedConfig } from 'solid-js';
+import { renderToStringAsync, isServer, createComponent, spread, delegateEvents, ssr, ssrHydrationKey, escape, Assets, ssrAttribute, HydrationScript, NoHydration, ssrElement } from 'solid-js/web';
+import { createContext, createUniqueId, useContext, createRenderEffect, onCleanup, createSignal, getOwner, runWithOwner, createMemo, useTransition, untrack, createComponent as createComponent$1, on, resetErrorBoundaries, children, createRoot, Show, ErrorBoundary as ErrorBoundary$1, createEffect, sharedConfig, Suspense } from 'solid-js';
 import { createServer } from '@graphql-yoga/common';
 
 const FETCH_EVENT = "$FETCH";
@@ -59,13 +59,97 @@ async function internalFetch(route, init) {
   return response;
 }
 
+const XSolidStartLocationHeader = "x-solidstart-location";
+const LocationHeader = "Location";
+const ContentTypeHeader = "content-type";
+const XSolidStartResponseTypeHeader = "x-solidstart-response-type";
+const XSolidStartContentTypeHeader = "x-solidstart-content-type";
+const XSolidStartOrigin = "x-solidstart-origin";
+const JSONResponseType = "application/json";
+function redirect(url, init = 302) {
+  let responseInit = init;
+  if (typeof responseInit === "number") {
+    responseInit = { status: responseInit };
+  } else if (typeof responseInit.status === "undefined") {
+    responseInit.status = 302;
+  }
+  if (url === "") {
+    url = "/";
+  }
+  let headers = new Headers(responseInit.headers);
+  headers.set(LocationHeader, url);
+  const response = new Response(null, {
+    ...responseInit,
+    headers
+  });
+  return response;
+}
+const redirectStatusCodes = /* @__PURE__ */ new Set([204, 301, 302, 303, 307, 308]);
+function isRedirectResponse(response) {
+  return response && response instanceof Response && redirectStatusCodes.has(response.status);
+}
+class ResponseError extends Error {
+  status;
+  headers;
+  name = "ResponseError";
+  ok;
+  statusText;
+  redirected;
+  url;
+  constructor(response) {
+    let message = JSON.stringify({
+      $type: "response",
+      status: response.status,
+      message: response.statusText,
+      headers: [...response.headers.entries()]
+    });
+    super(message);
+    this.status = response.status;
+    this.headers = new Map([...response.headers.entries()]);
+    this.url = response.url;
+    this.ok = response.ok;
+    this.statusText = response.statusText;
+    this.redirected = response.redirected;
+    this.bodyUsed = false;
+    this.type = response.type;
+    this.response = () => response;
+  }
+  response;
+  type;
+  clone() {
+    return this.response();
+  }
+  get body() {
+    return this.response().body;
+  }
+  bodyUsed;
+  async arrayBuffer() {
+    return await this.response().arrayBuffer();
+  }
+  async blob() {
+    return await this.response().blob();
+  }
+  async formData() {
+    return await this.response().formData();
+  }
+  async text() {
+    return await this.response().text();
+  }
+  async json() {
+    return await this.response().json();
+  }
+}
+
 function renderAsync(fn, options) {
   return () => async (event) => {
     let pageEvent = createPageEvent(event);
     let markup = await renderToStringAsync(() => fn(pageEvent), options);
     if (pageEvent.routerContext.url) {
-      return Response.redirect(new URL(pageEvent.routerContext.url, pageEvent.request.url), 302);
+      return redirect(pageEvent.routerContext.url, {
+        headers: pageEvent.responseHeaders
+      });
     }
+    markup = handleIslandsRouting(pageEvent, markup);
     return new Response(markup, {
       status: pageEvent.getStatusCode(),
       headers: pageEvent.responseHeaders
@@ -97,6 +181,9 @@ function createPageEvent(event) {
     fetch: internalFetch
   });
   return pageEvent;
+}
+function handleIslandsRouting(pageEvent, markup) {
+  return markup;
 }
 
 const MetaContext = createContext();
@@ -155,7 +242,7 @@ const MetaProvider = props => {
         if (!isServer) {
           let element = getElement(tag);
           tag.ref = element;
-          spread$1(element, () => tag.props);
+          spread(element, () => tag.props);
           let lastVisited = null;
 
           for (var i = index - 1; i >= 0; i--) {
@@ -180,7 +267,7 @@ const MetaProvider = props => {
       if (!isServer) {
         let element = getElement(tag);
         tag.ref = element;
-        spread$1(element, () => tag.props);
+        spread(element, () => tag.props);
 
         if (element.parentNode != document.head) {
           document.head.appendChild(element);
@@ -793,6 +880,8 @@ function createRouterContext(integration, base = "", data, out) {
                 state: state && JSON.parse(state)
             });
         }
+        // ensure delegated events run first
+        delegateEvents(["click"]);
         document.addEventListener("click", handleAnchorClick);
         onCleanup(() => document.removeEventListener("click", handleAnchorClick));
     }
@@ -978,63 +1067,22 @@ class FormError extends ServerError {
 
 }
 
-const XSolidStartLocationHeader = "x-solidstart-location";
-const LocationHeader = "Location";
-const ContentTypeHeader = "content-type";
-const XSolidStartResponseTypeHeader = "x-solidstart-response-type";
-const XSolidStartContentTypeHeader = "x-solidstart-content-type";
-const XSolidStartOrigin = "x-solidstart-origin";
-const JSONResponseType = "application/json";
-const redirectStatusCodes = /* @__PURE__ */ new Set([204, 301, 302, 303, 307, 308]);
-function isRedirectResponse(response) {
-  return response && response instanceof Response && redirectStatusCodes.has(response.status);
-}
-class ResponseError extends Error {
-  constructor(response) {
-    let message = JSON.stringify({
-      $type: "response",
-      status: response.status,
-      message: response.statusText,
-      headers: [...response.headers.entries()]
-    });
-    super(message);
-    this.name = "ResponseError";
-    this.status = response.status;
-    this.headers = new Map([...response.headers.entries()]);
-    this.url = response.url;
-    this.ok = response.ok;
-    this.statusText = response.statusText;
-    this.redirected = response.redirected;
-    this.bodyUsed = false;
-    this.type = response.type;
-    this.response = () => response;
-  }
-  clone() {
-    return this.response();
-  }
-  get body() {
-    return this.response().body;
-  }
-  async arrayBuffer() {
-    return await this.response().arrayBuffer();
-  }
-  async blob() {
-    return await this.response().blob();
-  }
-  async formData() {
-    return await this.response().formData();
-  }
-  async text() {
-    return await this.response().text();
-  }
-  async json() {
-    return await this.response().json();
-  }
-}
-
 const ServerContext = createContext({});
 
-const _tmpl$$6 = ["<div", " style=\"", "\"><div style=\"", "\"><p style=\"", "\" id=\"error-message\">", "</p><button id=\"reset-errors\" style=\"", "\">Clear errors and retry</button><pre style=\"", "\">", "</pre></div></div>"];
+createContext();
+createContext();
+
+function Routes(props) {
+
+  return createComponent(Routes$1, {
+    get children() {
+      return props.children;
+    }
+
+  });
+}
+
+const _tmpl$$5 = ["<div", " style=\"", "\"><div style=\"", "\"><p style=\"", "\" id=\"error-message\">", "</p><button id=\"reset-errors\" style=\"", "\">Clear errors and retry</button><pre style=\"", "\">", "</pre></div></div>"];
 function ErrorBoundary(props) {
   return createComponent(ErrorBoundary$1, {
     fallback: e => {
@@ -1064,17 +1112,267 @@ function ErrorBoundary(props) {
 }
 
 function ErrorMessage(props) {
+  createEffect(() => console.error(props.error));
+  return ssr(_tmpl$$5, ssrHydrationKey(), "padding:" + "16px", "background-color:" + "rgba(252, 165, 165)" + (";color:" + "rgb(153, 27, 27)") + (";border-radius:" + "5px") + (";overflow:" + "scroll") + (";padding:" + "16px") + (";margin-bottom:" + "8px"), "font-weight:" + "bold", escape(props.error.message), "color:" + "rgba(252, 165, 165)" + (";background-color:" + "rgb(153, 27, 27)") + (";border-radius:" + "5px") + (";padding:" + "4px 8px"), "margin-top:" + "8px" + (";width:" + "100%"), escape(props.error.stack));
+}
 
-  return ssr(_tmpl$$6, ssrHydrationKey(), "padding:" + "16px", "background-color:" + "rgba(252, 165, 165)" + (";color:" + "rgb(153, 27, 27)") + (";border-radius:" + "5px") + (";overflow:" + "scroll") + (";padding:" + "16px") + (";margin-bottom:" + "8px"), "font-weight:" + "bold", escape(props.error.message), "color:" + "rgba(252, 165, 165)" + (";background-color:" + "rgb(153, 27, 27)") + (";border-radius:" + "5px") + (";padding:" + "4px 8px"), "margin-top:" + "8px" + (";width:" + "100%"), escape(props.error.stack));
+const server$ = (fn) => {
+  throw new Error("Should be compiled away");
+};
+async function parseRequest(event) {
+  let request = event.request;
+  let contentType = request.headers.get(ContentTypeHeader);
+  let name = new URL(request.url).pathname, args = [];
+  if (contentType) {
+    if (contentType === JSONResponseType) {
+      let text = await request.text();
+      try {
+        args = JSON.parse(text, (key, value) => {
+          if (!value) {
+            return value;
+          }
+          if (value.$type === "fetch_event") {
+            return event;
+          }
+          if (value.$type === "headers") {
+            let headers = new Headers();
+            request.headers.forEach((value2, key2) => headers.set(key2, value2));
+            value.values.forEach(([key2, value2]) => headers.set(key2, value2));
+            return headers;
+          }
+          if (value.$type === "request") {
+            return new Request(value.url, {
+              method: value.method,
+              headers: value.headers
+            });
+          }
+          return value;
+        });
+      } catch (e) {
+        throw new Error(`Error parsing request body: ${text}`);
+      }
+    } else if (contentType.includes("form")) {
+      let formData = await request.clone().formData();
+      args = [formData, event];
+    }
+  }
+  return [name, args];
+}
+function respondWith(request, data, responseType) {
+  if (data instanceof ResponseError) {
+    data = data.clone();
+  }
+  if (data instanceof Response) {
+    if (isRedirectResponse(data) && request.headers.get(XSolidStartOrigin) === "client") {
+      let headers = new Headers(data.headers);
+      headers.set(XSolidStartOrigin, "server");
+      headers.set(XSolidStartLocationHeader, data.headers.get(LocationHeader));
+      headers.set(XSolidStartResponseTypeHeader, responseType);
+      headers.set(XSolidStartContentTypeHeader, "response");
+      return new Response(null, {
+        status: 204,
+        statusText: "Redirected",
+        headers
+      });
+    } else if (data.status === 101) {
+      return data;
+    } else {
+      let headers = new Headers(data.headers);
+      headers.set(XSolidStartOrigin, "server");
+      headers.set(XSolidStartResponseTypeHeader, responseType);
+      headers.set(XSolidStartContentTypeHeader, "response");
+      return new Response(data.body, {
+        status: data.status,
+        statusText: data.statusText,
+        headers
+      });
+    }
+  } else if (data instanceof FormError) {
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: data.message,
+          stack: "",
+          formError: data.formError,
+          fields: data.fields,
+          fieldErrors: data.fieldErrors
+        }
+      }),
+      {
+        status: 400,
+        headers: {
+          [XSolidStartResponseTypeHeader]: responseType,
+          [XSolidStartContentTypeHeader]: "form-error"
+        }
+      }
+    );
+  } else if (data instanceof ServerError) {
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: data.message,
+          stack: ""
+        }
+      }),
+      {
+        status: 400,
+        headers: {
+          [XSolidStartResponseTypeHeader]: responseType,
+          [XSolidStartContentTypeHeader]: "server-error"
+        }
+      }
+    );
+  } else if (data instanceof Error) {
+    console.error(data);
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: "Internal Server Error",
+          stack: "",
+          status: data.status
+        }
+      }),
+      {
+        status: data.status || 500,
+        headers: {
+          [XSolidStartResponseTypeHeader]: responseType,
+          [XSolidStartContentTypeHeader]: "error"
+        }
+      }
+    );
+  } else if (typeof data === "object" || typeof data === "string" || typeof data === "number" || typeof data === "boolean") {
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        [ContentTypeHeader]: "application/json",
+        [XSolidStartResponseTypeHeader]: responseType,
+        [XSolidStartContentTypeHeader]: "json"
+      }
+    });
+  }
+  return new Response("null", {
+    status: 200,
+    headers: {
+      [ContentTypeHeader]: "application/json",
+      [XSolidStartContentTypeHeader]: "json",
+      [XSolidStartResponseTypeHeader]: responseType
+    }
+  });
+}
+async function handleServerRequest(event) {
+  const url = new URL(event.request.url);
+  if (server$.hasHandler(url.pathname)) {
+    try {
+      let [name, args] = await parseRequest(event);
+      let handler = server$.getHandler(name);
+      if (!handler) {
+        throw {
+          status: 404,
+          message: "Handler Not Found for " + name
+        };
+      }
+      const data = await handler.call(event, ...Array.isArray(args) ? args : [args]);
+      return respondWith(event.request, data, "return");
+    } catch (error) {
+      return respondWith(event.request, error, "throw");
+    }
+  }
+  return null;
+}
+const handlers = /* @__PURE__ */ new Map();
+server$.createHandler = (_fn, hash) => {
+  let fn = function(...args) {
+    let ctx;
+    if (typeof this === "object") {
+      ctx = this;
+    } else if (sharedConfig.context && sharedConfig.context.requestContext) {
+      ctx = sharedConfig.context.requestContext;
+    } else {
+      ctx = {
+        request: new URL(hash, "http://localhost:3000").href,
+        responseHeaders: new Headers()
+      };
+    }
+    const execute = async () => {
+      try {
+        let e = await _fn.call(ctx, ...args);
+        return e;
+      } catch (e) {
+        if (/[A-Za-z]+ is not defined/.test(e.message)) {
+          const error = new Error(
+            e.message + "\n You probably are using a variable defined in a closure in your server function."
+          );
+          error.stack = e.stack;
+          throw error;
+        }
+        throw e;
+      }
+    };
+    return execute();
+  };
+  fn.url = hash;
+  fn.action = function(...args) {
+    return fn.call(this, ...args);
+  };
+  return fn;
+};
+server$.registerHandler = function(route, handler) {
+  handlers.set(route, handler);
+};
+server$.getHandler = function(route) {
+  return handlers.get(route);
+};
+server$.hasHandler = function(route) {
+  return handlers.has(route);
+};
+server$.fetch = internalFetch;
+
+function HttpStatusCode(props) {
+  const context = useContext(ServerContext);
+
+  if (isServer) {
+    context.setStatusCode(props.code);
+  }
+
+  onCleanup(() => {
+    if (isServer) {
+      context.setStatusCode(200);
+    }
+  });
+  return null;
+}
+
+const _tmpl$$4 = ["<main", "><!--#-->", "<!--/--><!--#-->", "<!--/--><h1>Page Not Found</h1><p>Visit <a href=\"https://docs.solidjs.com/start\" target=\"_blank\">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>"];
+function NotFound() {
+  return ssr(_tmpl$$4, ssrHydrationKey(), escape(createComponent(Title, {
+    children: "Not Found"
+  })), escape(createComponent(HttpStatusCode, {
+    code: 404
+  })));
+}
+
+const Counter$1 = '';
+
+const _tmpl$$3 = ["<button", " class=\"increment\">Clicks: <!--#-->", "<!--/--></button>"];
+function Counter() {
+  const [count, setCount] = createSignal(0);
+  return ssr(_tmpl$$3, ssrHydrationKey(), escape(count));
+}
+
+const _tmpl$$2 = ["<main", "><!--#-->", "<!--/--><h1>Hello world!</h1><!--#-->", "<!--/--><p>Visit <a href=\"https://docs.solidjs.com/start\" target=\"_blank\">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>"];
+function Home() {
+  return ssr(_tmpl$$2, ssrHydrationKey(), escape(createComponent(Title, {
+    children: "Hello World"
+  })), escape(createComponent(Counter, {})));
 }
 
 /// <reference path="../server/types.tsx" />
 const routesConfig = {
   routes: [{
-    component: lazy(() => Promise.resolve().then(() => ____404_)),
+    component: NotFound,
     path: "/*404"
   }, {
-    component: lazy(() => Promise.resolve().then(() => index)),
+    component: Home,
     path: "/"
   }],
   routeLayouts: {
@@ -1088,24 +1386,22 @@ const routesConfig = {
     }
   }
 };
-const fileRoutes = routesConfig.routes;
-const routeLayouts = routesConfig.routeLayouts;
 /**
  * Routes are the file system based routes, used by Solid App Router to show the current page according to the URL.
  */
 
 const FileRoutes = () => {
-  return fileRoutes;
+  return routesConfig.routes;
 };
 
-const _tmpl$$5 = ["<link", " rel=\"stylesheet\"", ">"],
+const _tmpl$$1 = ["<link", " rel=\"stylesheet\"", ">"],
       _tmpl$2$1 = ["<link", " rel=\"modulepreload\"", ">"];
 
 function getAssetsFromManifest(manifest, routerContext) {
   const match = routerContext.matches.reduce((memo, m) => {
     if (m.length) {
       const fullPath = m.reduce((previous, match) => previous + match.originalPath, "");
-      const route = routeLayouts[fullPath];
+      const route = routesConfig.routeLayouts[fullPath];
 
       if (route) {
         memo.push(...(manifest[route.id] || []));
@@ -1118,7 +1414,7 @@ function getAssetsFromManifest(manifest, routerContext) {
   }, []);
   match.push(...(manifest["entry-client"] || []));
   const links = match.reduce((r, src) => {
-    r[src.href] = src.type === "style" ? ssr(_tmpl$$5, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : src.type === "script" ? ssr(_tmpl$2$1, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : undefined;
+    r[src.href] = src.type === "style" ? ssr(_tmpl$$1, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : src.type === "script" ? ssr(_tmpl$2$1, ssrHydrationKey(), ssrAttribute("href", escape(src.href, true), false)) : undefined;
     return r;
   }, {});
   return Object.values(links);
@@ -1150,67 +1446,39 @@ function Meta() {
   });
 }
 
-const _tmpl$$4 = ["<script", " type=\"module\" async", "></script>"];
+const _tmpl$4 = ["<script", " type=\"module\" async", "></script>"];
 const isDev = "production" === "development";
 const isIslands = false;
-
-function getEntryClient(manifest) {
-  const entry = manifest["entry-client"][0];
-  return ssr(_tmpl$$4, ssrHydrationKey(), ssrAttribute("src", escape(entry.href, true), false));
-}
-
 function Scripts() {
   const context = useContext(ServerContext);
   return [createComponent(HydrationScript, {}), isIslands , createComponent(NoHydration, {
     get children() {
-      return isServer && (getEntryClient(context.env.manifest) );
+      return isServer && (ssr(_tmpl$4, ssrHydrationKey(), ssrAttribute("src", escape(context.env.manifest["entry-client"][0].href, true), false)) );
     }
 
   }), isDev ];
 }
 
-let spread = (props, isSvg, skipChildren) => // @ts-ignore
-ssrSpread(props, isSvg, skipChildren);
-
 function Html(props) {
 
   {
-    return `<html ${spread(props, false, true)}>
-        ${resolveSSRNode(children(() => props.children))}
-      </html>
-    `;
+    return ssrElement("html", props, undefined, false);
   }
 }
 function Head(props) {
   {
-    return `<head ${spread(props, false, true)}>
-        ${resolveSSRNode(children(() => [props.children, createComponent(Meta, {}), createComponent(Links, {})]))}
-      </head>
-    `;
+    return ssrElement("head", props, () => [props.children, createComponent(Meta, {}), createComponent(Links, {})], false);
   }
 }
 function Body(props) {
   {
-    return `<body ${spread(props, false, true)}>${resolveSSRNode(children(() => props.children)) }</body>`;
+    return ssrElement("body", props, () => props.children , false);
   }
-}
-
-createContext();
-createContext();
-
-function Routes(props) {
-
-  return createComponent(Routes$1, {
-    get children() {
-      return props.children;
-    }
-
-  });
 }
 
 const root = '';
 
-const _tmpl$$3 = ["<a", " href=\"/\">Index</a>"],
+const _tmpl$ = ["<a", " href=\"/\">Index</a>"],
       _tmpl$2 = ["<a", " href=\"/about\">About</a>"];
 function Root() {
   return createComponent(Html, {
@@ -1235,7 +1503,7 @@ function Root() {
             get children() {
               return createComponent(ErrorBoundary, {
                 get children() {
-                  return [ssr(_tmpl$$3, ssrHydrationKey()), ssr(_tmpl$2, ssrHydrationKey()), createComponent(Routes, {
+                  return [ssr(_tmpl$, ssrHydrationKey()), ssr(_tmpl$2, ssrHydrationKey()), createComponent(Routes, {
                     get children() {
                       return createComponent(FileRoutes, {});
                     }
@@ -1255,7 +1523,7 @@ function Root() {
   });
 }
 
-const server$1 = createServer({
+const server = createServer({
   schema: {
     typeDefs: `
       type Query {
@@ -1270,7 +1538,7 @@ const server$1 = createServer({
   }
 });
 const handler = ({ request }) => {
-  return server$1.handleRequest(request);
+  return server.handleRequest(request);
 };
 const get = handler;
 const post = handler;
@@ -1343,226 +1611,25 @@ const apiRoutes = ({ forward }) => {
         $type: FETCH_EVENT,
         fetch: internalFetch
       });
-      return await apiHandler.handler(apiEvent);
+      try {
+        return await apiHandler.handler(apiEvent);
+      } catch (error) {
+        if (error instanceof Response) {
+          return error;
+        }
+        return new Response(JSON.stringify(error), {
+          status: 500
+        });
+      }
     }
     return await forward(event);
   };
 };
 
-const server = (fn) => {
-  throw new Error("Should be compiled away");
-};
-async function parseRequest(event) {
-  let request = event.request;
-  let contentType = request.headers.get(ContentTypeHeader);
-  let name = new URL(request.url).pathname, args = [];
-  if (contentType) {
-    if (contentType === JSONResponseType) {
-      let text = await request.text();
-      try {
-        args = JSON.parse(text, (key, value) => {
-          if (!value) {
-            return value;
-          }
-          if (value.$type === "fetch_event") {
-            return event;
-          }
-          if (value.$type === "headers") {
-            let headers = new Headers();
-            request.headers.forEach((value2, key2) => headers.set(key2, value2));
-            value.values.forEach(([key2, value2]) => headers.set(key2, value2));
-            return headers;
-          }
-          if (value.$type === "request") {
-            return new Request(value.url, {
-              method: value.method,
-              headers: value.headers
-            });
-          }
-          return value;
-        });
-      } catch (e) {
-        throw new Error(`Error parsing request body: ${text}`);
-      }
-    } else if (contentType.includes("form")) {
-      let formData = await request.formData();
-      args = [formData, event];
-    }
-  }
-  return [name, args];
-}
-function respondWith(request, data, responseType) {
-  if (data instanceof ResponseError) {
-    data = data.clone();
-  }
-  if (data instanceof Response) {
-    if (isRedirectResponse(data) && request.headers.get(XSolidStartOrigin) === "client") {
-      let headers = new Headers(data.headers);
-      headers.set(XSolidStartOrigin, "server");
-      headers.set(XSolidStartLocationHeader, data.headers.get(LocationHeader));
-      headers.set(XSolidStartResponseTypeHeader, responseType);
-      headers.set(XSolidStartContentTypeHeader, "response");
-      return new Response(null, {
-        status: 204,
-        statusText: "Redirected",
-        headers
-      });
-    } else if (data.status === 101) {
-      return data;
-    } else {
-      let headers = new Headers(data.headers);
-      headers.set(XSolidStartOrigin, "server");
-      headers.set(XSolidStartResponseTypeHeader, responseType);
-      headers.set(XSolidStartContentTypeHeader, "response");
-      return new Response(data.body, {
-        status: data.status,
-        statusText: data.statusText,
-        headers
-      });
-    }
-  } else if (data instanceof FormError) {
-    return new Response(
-      JSON.stringify({
-        error: {
-          message: data.message,
-          stack: "",
-          formError: data.formError,
-          fields: data.fields,
-          fieldErrors: data.fieldErrors
-        }
-      }),
-      {
-        status: 400,
-        headers: {
-          [XSolidStartResponseTypeHeader]: responseType,
-          [XSolidStartContentTypeHeader]: "form-error"
-        }
-      }
-    );
-  } else if (data instanceof ServerError) {
-    return new Response(
-      JSON.stringify({
-        error: {
-          message: data.message,
-          stack: ""
-        }
-      }),
-      {
-        status: 400,
-        headers: {
-          [XSolidStartResponseTypeHeader]: responseType,
-          [XSolidStartContentTypeHeader]: "server-error"
-        }
-      }
-    );
-  } else if (data instanceof Error) {
-    return new Response(
-      JSON.stringify({
-        error: {
-          message: "Internal Server Error",
-          stack: "",
-          status: data.status
-        }
-      }),
-      {
-        status: data.status || 500,
-        headers: {
-          [XSolidStartResponseTypeHeader]: responseType,
-          [XSolidStartContentTypeHeader]: "error"
-        }
-      }
-    );
-  } else if (typeof data === "object" || typeof data === "string" || typeof data === "number" || typeof data === "boolean") {
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: {
-        [ContentTypeHeader]: "application/json",
-        [XSolidStartResponseTypeHeader]: responseType,
-        [XSolidStartContentTypeHeader]: "json"
-      }
-    });
-  }
-  return new Response("null", {
-    status: 200,
-    headers: {
-      [ContentTypeHeader]: "application/json",
-      [XSolidStartContentTypeHeader]: "json",
-      [XSolidStartResponseTypeHeader]: responseType
-    }
-  });
-}
-async function handleServerRequest(event) {
-  const url = new URL(event.request.url);
-  if (server.hasHandler(url.pathname)) {
-    try {
-      let [name, args] = await parseRequest(event);
-      let handler = server.getHandler(name);
-      if (!handler) {
-        throw {
-          status: 404,
-          message: "Handler Not Found for " + name
-        };
-      }
-      const data = await handler.call(event, ...Array.isArray(args) ? args : [args]);
-      return respondWith(event.request, data, "return");
-    } catch (error) {
-      return respondWith(event.request, error, "throw");
-    }
-  }
-  return null;
-}
-const handlers = /* @__PURE__ */ new Map();
-server.createHandler = (_fn, hash) => {
-  let fn = function(...args) {
-    let ctx;
-    if (typeof this === "object" && this.request instanceof Request) {
-      ctx = this;
-    } else if (sharedConfig.context && sharedConfig.context.requestContext) {
-      ctx = sharedConfig.context.requestContext;
-    } else {
-      ctx = {
-        request: new URL(hash, "http://localhost:3000").href,
-        responseHeaders: new Headers()
-      };
-    }
-    const execute = async () => {
-      try {
-        let e = await _fn.call(ctx, ...args);
-        return e;
-      } catch (e) {
-        if (/[A-Za-z]+ is not defined/.test(e.message)) {
-          const error = new Error(
-            e.message + "\n You probably are using a variable defined in a closure in your server function."
-          );
-          error.stack = e.stack;
-          throw error;
-        }
-        throw e;
-      }
-    };
-    return execute();
-  };
-  fn.url = hash;
-  fn.action = function(...args) {
-    return fn.call(this, ...args);
-  };
-  return fn;
-};
-server.registerHandler = function(route, handler) {
-  handlers.set(route, handler);
-};
-server.getHandler = function(route) {
-  return handlers.get(route);
-};
-server.hasHandler = function(route) {
-  return handlers.has(route);
-};
-server.fetch = internalFetch;
-
 const inlineServerFunctions = ({ forward }) => {
   return async (event) => {
     const url = new URL(event.request.url);
-    if (server.hasHandler(url.pathname)) {
+    if (server$.hasHandler(url.pathname)) {
       let contentType = event.request.headers.get(ContentTypeHeader);
       let origin = event.request.headers.get(XSolidStartOrigin);
       let formRequestBody;
@@ -1637,11 +1704,12 @@ function StartRouter(props) {
   return createComponent(Router, props);
 }
 const docType = ssr("<!DOCTYPE html>");
-const StartServer = (({
+function StartServer({
   event
-}) => {
+}) {
   const parsed = new URL(event.request.url);
   const path = parsed.pathname + parsed.search;
+  sharedConfig.context.requestContext = event;
   return createComponent(ServerContext.Provider, {
     value: event,
 
@@ -1666,7 +1734,10 @@ const StartServer = (({
             },
 
             data: dataFn,
-            routes: fileRoutes,
+
+            get routes() {
+              return routesConfig.routes;
+            },
 
             get children() {
               return [docType, createComponent(Root, {})];
@@ -1679,59 +1750,10 @@ const StartServer = (({
     }
 
   });
-});
+}
 
 const entryServer = createHandler(renderAsync(event => createComponent(StartServer, {
   event: event
 })));
-
-function HttpStatusCode(props) {
-  const context = useContext(ServerContext);
-
-  if (isServer) {
-    context.setStatusCode(props.code);
-  }
-
-  onCleanup(() => {
-    if (isServer) {
-      context.setStatusCode(200);
-    }
-  });
-  return null;
-}
-
-const _tmpl$$2 = ["<main", "><!--#-->", "<!--/--><!--#-->", "<!--/--><h1>Page Not Found</h1><p>Visit <a href=\"https://docs.solidjs.com/start\" target=\"_blank\">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>"];
-function NotFound() {
-  return ssr(_tmpl$$2, ssrHydrationKey(), escape(createComponent(Title, {
-    children: "Not Found"
-  })), escape(createComponent(HttpStatusCode, {
-    code: 404
-  })));
-}
-
-const ____404_ = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-  __proto__: null,
-  default: NotFound
-}, Symbol.toStringTag, { value: 'Module' }));
-
-const Counter$1 = '';
-
-const _tmpl$$1 = ["<button", " class=\"increment\">Clicks: <!--#-->", "<!--/--></button>"];
-function Counter() {
-  const [count, setCount] = createSignal(0);
-  return ssr(_tmpl$$1, ssrHydrationKey(), escape(count));
-}
-
-const _tmpl$ = ["<main", "><!--#-->", "<!--/--><h1>Hello world!</h1><!--#-->", "<!--/--><p>Visit <a href=\"https://docs.solidjs.com/start\" target=\"_blank\">docs.solidjs.com/start</a> to learn how to build SolidStart apps.</p></main>"];
-function Home() {
-  return ssr(_tmpl$, ssrHydrationKey(), escape(createComponent(Title, {
-    children: "Hello World"
-  })), escape(createComponent(Counter, {})));
-}
-
-const index = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-  __proto__: null,
-  default: Home
-}, Symbol.toStringTag, { value: 'Module' }));
 
 export { entryServer as default };

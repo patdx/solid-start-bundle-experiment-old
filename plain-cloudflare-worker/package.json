@@ -7,10 +7,10 @@
     "build": "wrangler publish --dry-run --outdir dist"
   },
   "devDependencies": {
-    "wrangler": "^2.0.0"
+    "wrangler": "^2.1.9"
   },
   "dependencies": {
-    "@graphql-yoga/common": "^2.12.10",
+    "@graphql-yoga/common": "^2.12.12",
     "graphql": "^16.6.0"
   }
 }

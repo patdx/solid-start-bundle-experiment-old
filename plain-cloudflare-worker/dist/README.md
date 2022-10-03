@@ -1,1 +1,1 @@
-This folder contains the built output assets for the worker "plain-grpahql-server-worker" generated at 2022-08-31T17:04:53.843Z.
+This folder contains the built output assets for the worker "plain-worker" generated at 2022-10-03T09:16:55.868Z.

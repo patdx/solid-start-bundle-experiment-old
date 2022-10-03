@@ -3,6 +3,8 @@ compatibility_date = "2022-08-31"
 
 main = "dist/server.js"
 
+send_metrics = false
+
 [site]
 bucket = "dist/public"
 

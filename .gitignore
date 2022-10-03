@@ -6,6 +6,8 @@
 .netlify
 netlify
 
+.solid/inspect
+
 # dependencies
 node_modules
 

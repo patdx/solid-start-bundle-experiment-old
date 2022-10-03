@@ -11091,7 +11091,7 @@ var useMaskedErrors = (opts) => {
   };
 };
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/logger.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/logger.js
 var ANSI_CODES = {
   black: "\x1B[30m",
   red: "\x1B[31m",
@@ -11243,7 +11243,7 @@ var useParserCache = (pluginOptions = {}) => {
   };
 };
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/helpers.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/helpers.js
 var asArray = (fns) => Array.isArray(fns) ? fns : fns ? [fns] : [];
 function compareStrings(a, b) {
   if (String(a) < String(b)) {
@@ -11280,7 +11280,7 @@ function isSome(input) {
   return input != null;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/errors.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/errors.js
 function createGraphQLError(message, options) {
   if (versionInfo.major >= 17) {
     return new GraphQLError(message, options);
@@ -11288,7 +11288,7 @@ function createGraphQLError(message, options) {
   return new GraphQLError(message, options === null || options === void 0 ? void 0 : options.nodes, options === null || options === void 0 ? void 0 : options.source, options === null || options === void 0 ? void 0 : options.positions, options === null || options === void 0 ? void 0 : options.path, options === null || options === void 0 ? void 0 : options.originalError, options === null || options === void 0 ? void 0 : options.extensions);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/AggregateError.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/AggregateError.js
 var AggregateErrorImpl;
 if (typeof AggregateError === "undefined") {
   class AggregateErrorClass extends Error {
@@ -11309,7 +11309,7 @@ function isAggregateError(error) {
   return "errors" in error && Array.isArray(error["errors"]);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/inspect.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/inspect.js
 var MAX_RECURSIVE_DEPTH2 = 3;
 function inspect2(value) {
   return formatValue2(value, []);
@@ -11402,12 +11402,12 @@ function getObjectTag2(object) {
   return tag;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/get-directives.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/get-directives.js
 function getDirectivesInExtensions(node, pathToDirectivesInExtensions = ["directives"]) {
   return pathToDirectivesInExtensions.reduce((acc, pathSegment) => acc == null ? acc : acc[pathSegment], node === null || node === void 0 ? void 0 : node.extensions);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromType.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromType.js
 function astFromType(type) {
   if (isNonNullType(type)) {
     const innerType = astFromType(type.ofType);
@@ -11433,7 +11433,7 @@ function astFromType(type) {
   };
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromValueUntyped.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/astFromValueUntyped.js
 function astFromValueUntyped(value) {
   if (value === null) {
     return { kind: Kind.NULL };
@@ -11480,7 +11480,7 @@ function astFromValueUntyped(value) {
 }
 var integerStringRegExp2 = /^-?(?:0|[1-9][0-9]*)$/;
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/memoize.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/memoize.js
 function memoize1(fn) {
   const memoize1cache = /* @__PURE__ */ new WeakMap();
   return function memoized(a1) {
@@ -11494,7 +11494,7 @@ function memoize1(fn) {
   };
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rootTypes.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rootTypes.js
 var getRootTypeNames = memoize1(function getRootTypeNames2(schema) {
   const rootTypes = getRootTypes(schema);
   return new Set([...rootTypes].map((type) => type.name));
@@ -11520,7 +11520,7 @@ var getRootTypeMap = memoize1(function getRootTypeMap2(schema) {
   return rootTypeMap;
 });
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/print-schema-with-directives.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/print-schema-with-directives.js
 function getDocumentNodeFromSchema(schema, options = {}) {
   const pathToDirectivesInExtensions = options.pathToDirectivesInExtensions;
   const typesMap = schema.getTypeMap();
@@ -11930,7 +11930,7 @@ function makeDirectiveNodes(schema, directiveValues) {
   return directiveNodes;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/comments.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/comments.js
 var MAX_LINE_LENGTH2 = 80;
 var commentsRegistry = {};
 function resetComments() {
@@ -12224,7 +12224,7 @@ function isBlank(str) {
   return leadingWhitespace2(str) === str.length;
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/Interfaces.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/Interfaces.js
 var MapperKind;
 (function(MapperKind2) {
   MapperKind2["TYPE"] = "MapperKind.TYPE";
@@ -12254,7 +12254,7 @@ var MapperKind;
   MapperKind2["ENUM_VALUE"] = "MapperKind.ENUM_VALUE";
 })(MapperKind || (MapperKind = {}));
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/getObjectTypeFromTypeMap.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/getObjectTypeFromTypeMap.js
 function getObjectTypeFromTypeMap(typeMap, type) {
   if (type) {
     const maybeObjectType = typeMap[type.name];
@@ -12264,7 +12264,7 @@ function getObjectTypeFromTypeMap(typeMap, type) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/stub.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/stub.js
 function isNamedStub(type) {
   if ("getFields" in type) {
     const fields = type.getFields();
@@ -12292,7 +12292,7 @@ function getBuiltInForStub(type) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rewire.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/rewire.js
 function rewireTypes(originalTypeMap, directives) {
   const referenceTypeMap = /* @__PURE__ */ Object.create(null);
   for (const typeName in originalTypeMap) {
@@ -12309,7 +12309,8 @@ function rewireTypes(originalTypeMap, directives) {
       continue;
     }
     if (newTypeMap[newName] != null) {
-      throw new Error(`Duplicate schema type name ${newName}`);
+      console.warn(`Duplicate schema type name ${newName} found; keeping the existing one found in the schema`);
+      continue;
     }
     newTypeMap[newName] = namedType;
   }
@@ -12440,7 +12441,7 @@ function rewireTypes(originalTypeMap, directives) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/transformInputValue.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/transformInputValue.js
 function transformInputValue(type, value, inputLeafValueTransformer = null, inputObjectValueTransformer = null) {
   if (value == null) {
     return value;
@@ -12481,7 +12482,7 @@ function parseInputValue(type, value) {
   });
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mapSchema.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mapSchema.js
 function mapSchema(schema, schemaMapper = {}) {
   const newTypeMap = mapArguments(mapFields(mapTypes(mapDefaultValues(mapEnumValues(mapTypes(mapDefaultValues(schema.getTypeMap(), schema, serializeInputValue), schema, schemaMapper, (type) => isLeafType(type)), schema, schemaMapper), schema, parseInputValue), schema, schemaMapper, (type) => !isLeafType(type)), schema, schemaMapper), schema, schemaMapper);
   const originalDirectives = schema.getDirectives();
@@ -12911,7 +12912,7 @@ function correctASTNodes(type) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/heal.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/heal.js
 function healSchema(schema) {
   healTypes(schema.getTypeMap(), schema.getDirectives());
   return schema;
@@ -12927,8 +12928,9 @@ function healTypes(originalTypeMap, directives) {
     if (actualName.startsWith("__")) {
       continue;
     }
-    if (actualName in actualNamedTypeMap) {
-      throw new Error(`Duplicate schema type name ${actualName}`);
+    if (actualNamedTypeMap[actualName] != null) {
+      console.warn(`Duplicate schema type name ${actualName} found; keeping the existing one found in the schema`);
+      continue;
     }
     actualNamedTypeMap[actualName] = namedType;
   }
@@ -13026,7 +13028,7 @@ function healTypes(originalTypeMap, directives) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachField.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachField.js
 function forEachField(schema, fn) {
   const typeMap = schema.getTypeMap();
   for (const typeName in typeMap) {
@@ -13041,7 +13043,7 @@ function forEachField(schema, fn) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachDefaultValue.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/forEachDefaultValue.js
 function forEachDefaultValue(schema, fn) {
   const typeMap = schema.getTypeMap();
   for (const typeName in typeMap) {
@@ -13066,7 +13068,7 @@ function forEachDefaultValue(schema, fn) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mergeDeep.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/mergeDeep.js
 function mergeDeep(sources, respectPrototype = false) {
   const target = sources[0] || {};
   const output = {};
@@ -13106,17 +13108,17 @@ function isObject(item) {
   return item && typeof item === "object" && !Array.isArray(item);
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isAsyncIterable.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isAsyncIterable.js
 function isAsyncIterable3(value) {
   return typeof value === "object" && value != null && Symbol.asyncIterator in value && typeof value[Symbol.asyncIterator] === "function";
 }
 
-// node_modules/.pnpm/@graphql-tools+utils@8.10.1_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isDocumentNode.js
+// node_modules/.pnpm/@graphql-tools+utils@8.12.0_graphql@16.6.0/node_modules/@graphql-tools/utils/esm/isDocumentNode.js
 function isDocumentNode(object) {
   return object && typeof object === "object" && "kind" in object && object.kind === Kind.DOCUMENT;
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/assertResolversPresent.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/assertResolversPresent.js
 function assertResolversPresent(schema, resolverValidationOptions = {}) {
   const { requireResolversForArgs, requireResolversForNonScalar, requireResolversForAllFields } = resolverValidationOptions;
   if (requireResolversForAllFields && (requireResolversForArgs || requireResolversForNonScalar)) {
@@ -13154,7 +13156,7 @@ To disable this validator, use:
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/checkForResolveTypeResolver.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/checkForResolveTypeResolver.js
 function checkForResolveTypeResolver(schema, requireResolversForResolveType) {
   mapSchema(schema, {
     [MapperKind.ABSTRACT_TYPE]: (type) => {
@@ -13172,7 +13174,7 @@ function checkForResolveTypeResolver(schema, requireResolversForResolveType) {
   });
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/extendResolversFromInterfaces.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/extendResolversFromInterfaces.js
 function extendResolversFromInterfaces(schema, resolvers) {
   const extendedResolvers = {};
   const typeMap = schema.getTypeMap();
@@ -13204,7 +13206,7 @@ function extendResolversFromInterfaces(schema, resolvers) {
   return extendedResolvers;
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/addResolversToSchema.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/addResolversToSchema.js
 function addResolversToSchema({ schema, resolvers: inputResolvers, defaultFieldResolver: defaultFieldResolver2, resolverValidationOptions = {}, inheritResolversFromInterfaces = false, updateResolversInPlace = false }) {
   const { requireResolversToMatchSchema = "error", requireResolversForResolveType } = resolverValidationOptions;
   const resolvers = inheritResolversFromInterfaces ? extendResolversFromInterfaces(schema, inputResolvers) : inputResolvers;
@@ -13463,7 +13465,7 @@ function setFieldProperties(field, propertiesObj) {
   }
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/merge-resolvers.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/merge-resolvers.js
 function mergeResolvers(resolversDefinitions, options) {
   if (!resolversDefinitions || Array.isArray(resolversDefinitions) && resolversDefinitions.length === 0) {
     return {};
@@ -13497,7 +13499,7 @@ function mergeResolvers(resolversDefinitions, options) {
   return result;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/arguments.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/arguments.js
 function mergeArguments(args1, args2, config) {
   const result = deduplicateArguments([...args2, ...args1].filter(isSome));
   if (config && config.sort) {
@@ -13515,7 +13517,7 @@ function deduplicateArguments(args) {
   }, []);
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/directives.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/directives.js
 function directiveAlreadyExists(directivesArr, otherDirective) {
   return !!directivesArr.find((directive) => directive.name.value === otherDirective.name.value);
 }
@@ -13607,7 +13609,7 @@ function deduplicateLists(source, target, filterFn) {
   return source.concat(target.filter((val) => filterFn(val, source)));
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum-values.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum-values.js
 function mergeEnumValues(first, second, config) {
   if (config === null || config === void 0 ? void 0 : config.consistentEnumMerge) {
     const reversed = [];
@@ -13642,7 +13644,7 @@ function mergeEnumValues(first, second, config) {
   return result;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/enum.js
 function mergeEnum(e1, e2, config) {
   if (e2) {
     return {
@@ -13660,7 +13662,7 @@ function mergeEnum(e1, e2, config) {
   } : e1;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/utils.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/utils.js
 function isStringTypes(types) {
   return typeof types === "string";
 }
@@ -13715,7 +13717,7 @@ function defaultStringComparator(a, b) {
   return CompareVal.A_EQUALS_B;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/fields.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/fields.js
 function fieldAlreadyExists(fieldsArr, otherField, config) {
   const result = fieldsArr.find((field) => field.name.value === otherField.name.value);
   if (result && !(config === null || config === void 0 ? void 0 : config.ignoreFieldConflicts)) {
@@ -13787,7 +13789,7 @@ function safeChangeForFieldType(oldType, newType, ignoreNullability = false) {
   return false;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/input-type.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/input-type.js
 function mergeInputType(node, existingNode, config) {
   if (existingNode) {
     try {
@@ -13809,7 +13811,7 @@ function mergeInputType(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/interface.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/interface.js
 function mergeInterface(node, existingNode, config) {
   if (existingNode) {
     try {
@@ -13832,7 +13834,7 @@ function mergeInterface(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-named-type-array.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-named-type-array.js
 function alreadyExists(arr, other) {
   return !!arr.find((i) => i.name.value === other.name.value);
 }
@@ -13844,7 +13846,7 @@ function mergeNamedTypeArray(first = [], second = [], config = {}) {
   return result;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/type.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/type.js
 function mergeType(node, existingNode, config) {
   if (existingNode) {
     try {
@@ -13867,7 +13869,7 @@ function mergeType(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/scalar.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/scalar.js
 function mergeScalar(node, existingNode, config) {
   if (existingNode) {
     return {
@@ -13884,7 +13886,7 @@ function mergeScalar(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/union.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/union.js
 function mergeUnion(first, second, config) {
   if (second) {
     return {
@@ -13902,7 +13904,7 @@ function mergeUnion(first, second, config) {
   } : first;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/schema-def.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/schema-def.js
 var DEFAULT_OPERATION_TYPE_NAME_MAP = {
   query: "Query",
   mutation: "Mutation",
@@ -13933,7 +13935,7 @@ function mergeSchemaDefs(node, existingNode, config) {
   } : node;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-nodes.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-nodes.js
 var schemaDefSymbol = "SCHEMA_DEF_SYMBOL";
 function isNamedDefinitionNode(definitionNode) {
   return "name" in definitionNode;
@@ -13990,7 +13992,7 @@ function mergeGraphQLNodes(nodes, config) {
   return mergedResultMap;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-typedefs.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/typedefs-mergers/merge-typedefs.js
 function mergeTypeDefs(typeSource, config) {
   resetComments();
   const doc = {
@@ -14098,7 +14100,7 @@ function mergeGraphQLTypes(typeSource, config) {
   return mergedNodeDefinitions;
 }
 
-// node_modules/.pnpm/@graphql-tools+merge@8.3.4_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/extensions.js
+// node_modules/.pnpm/@graphql-tools+merge@8.3.6_graphql@16.6.0/node_modules/@graphql-tools/merge/esm/extensions.js
 function mergeExtensions(extensions) {
   return mergeDeep(extensions);
 }
@@ -14140,7 +14142,7 @@ function applyExtensions(schema, extensions) {
   return schema;
 }
 
-// node_modules/.pnpm/@graphql-tools+schema@9.0.2_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/makeExecutableSchema.js
+// node_modules/.pnpm/@graphql-tools+schema@9.0.4_graphql@16.6.0/node_modules/@graphql-tools/schema/esm/makeExecutableSchema.js
 function makeExecutableSchema({ typeDefs, resolvers = {}, resolverValidationOptions = {}, inheritResolversFromInterfaces = false, updateResolversInPlace = false, schemaExtensions, ...otherOptions }) {
   if (typeof resolverValidationOptions !== "object") {
     throw new Error("Expected `resolverValidationOptions` to be an object");
@@ -14178,10 +14180,10 @@ function makeExecutableSchema({ typeDefs, resolvers = {}, resolverValidationOpti
   return schema;
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
 var crossUndiciFetch = __toESM(require_global_ponyfill(), 1);
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/processRequest.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/processRequest.js
 async function processRequest({ request, params, enveloped, fetchAPI, onResultProcessHooks }) {
   const document = enveloped.parse(params.query);
   enveloped.validate(enveloped.schema, document);
@@ -14216,7 +14218,7 @@ async function processRequest({ request, params, enveloped, fetchAPI, onResultPr
   return resultProcessor(result, fetchAPI);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useCORS.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useCORS.js
 function getCORSHeadersByRequestAndOptions(request, corsOptions) {
   var _a2, _b;
   const headers = {};
@@ -14305,7 +14307,10 @@ function useCORS(options) {
         const headers = await getCORSResponseHeaders(request, corsOptionsFactory, serverContext);
         const response = new fetchAPI.Response(null, {
           status: 204,
-          headers
+          headers: {
+            ...headers,
+            "Content-Length": "0"
+          }
         });
         endResponse(response);
       }
@@ -14319,7 +14324,7 @@ function useCORS(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useHealthCheck.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useHealthCheck.js
 function useHealthCheck(options) {
   const id = (options === null || options === void 0 ? void 0 : options.id) || Date.now().toString();
   const logger = (options === null || options === void 0 ? void 0 : options.logger) || console;
@@ -14360,10 +14365,10 @@ function useHealthCheck(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/graphiqlHTML.js
-var graphiqlHTML_default = '<!DOCTYPE html><html lang=en><head><meta charset=utf-8><title>__TITLE__</title><link rel=icon href=https://www.graphql-yoga.com/favicon.ico><link rel=stylesheet href=https://unpkg.com/@graphql-yoga/graphiql@2.4.2/dist/style.css></head><body id=body class=no-focus-outline><noscript>You need to enable JavaScript to run this app.</noscript><div id=root></div><script type=module>import{renderYogaGraphiQL}from"https://unpkg.com/@graphql-yoga/graphiql@2.4.2/dist/yoga-graphiql.es.js";renderYogaGraphiQL(root,__OPTS__)<\/script></body></html>';
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/graphiqlHTML.js
+var graphiqlHTML_default = '<!DOCTYPE html><html lang=en><head><meta charset=utf-8><title>__TITLE__</title><link rel=icon href=https://www.graphql-yoga.com/favicon.ico><link rel=stylesheet href=https://unpkg.com/@graphql-yoga/graphiql@2.4.3/dist/style.css></head><body id=body class=no-focus-outline><noscript>You need to enable JavaScript to run this app.</noscript><div id=root></div><script type=module>import{renderYogaGraphiQL}from"https://unpkg.com/@graphql-yoga/graphiql@2.4.3/dist/yoga-graphiql.es.js";renderYogaGraphiQL(root,__OPTS__)<\/script></body></html>';
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useGraphiQL.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useGraphiQL.js
 function shouldRenderGraphiQL({ headers, method }) {
   var _a2;
   return method === "GET" && !!((_a2 = headers === null || headers === void 0 ? void 0 : headers.get("accept")) === null || _a2 === void 0 ? void 0 : _a2.includes("text/html"));
@@ -14414,7 +14419,7 @@ function useGraphiQL(config) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useRequestParser.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useRequestParser.js
 var DEFAULT_MATCHER = () => true;
 function useRequestParser(options) {
   const matchFn = options.match || DEFAULT_MATCHER;
@@ -14429,7 +14434,7 @@ function useRequestParser(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/utils.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/utils.js
 function parseURLSearchParams(requestBody) {
   const searchParams = new URLSearchParams(requestBody);
   const operationName = searchParams.get("operationName") || void 0;
@@ -14448,7 +14453,7 @@ function isContentTypeMatch(request, expectedContentType) {
   return contentType === expectedContentType || !!(contentType === null || contentType === void 0 ? void 0 : contentType.startsWith(`${expectedContentType};`));
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/GET.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/GET.js
 function isGETRequest(request) {
   return request.method === "GET";
 }
@@ -14457,7 +14462,7 @@ function parseGETRequest(request) {
   return parseURLSearchParams(searchParamsStr);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTJson.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTJson.js
 function isPOSTJsonRequest(request) {
   return request.method === "POST";
 }
@@ -14483,7 +14488,7 @@ function dset(obj, keys, val) {
   }
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTMultipart.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTMultipart.js
 function isPOSTMultipartRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "multipart/form-data");
 }
@@ -14523,7 +14528,7 @@ async function parsePOSTMultipartRequest(request) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTGraphQLString.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTGraphQLString.js
 function isPOSTGraphQLStringRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "application/graphql");
 }
@@ -14534,7 +14539,7 @@ async function parsePOSTGraphQLStringRequest(request) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useResultProcessor.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/useResultProcessor.js
 function useResultProcessor(options) {
   const isMatch = options.match || (() => true);
   return {
@@ -14546,7 +14551,7 @@ function useResultProcessor(options) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/encodeString.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/encodeString.js
 var encodeString;
 if (globalThis.Buffer) {
   encodeString = function encodeStringWithBuffer(str) {
@@ -14559,7 +14564,7 @@ if (globalThis.Buffer) {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/regular.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/regular.js
 function isRegularResult(request, result) {
   return !isAsyncIterable3(result);
 }
@@ -14577,7 +14582,7 @@ function processRegularResult(executionResult, fetchAPI) {
   return new fetchAPI.Response(decodedString, responseInit);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/push.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/push.js
 function isPushResult(request, result) {
   var _a2;
   return isAsyncIterable2(result) && !!((_a2 = request.headers.get("accept")) === null || _a2 === void 0 ? void 0 : _a2.includes("text/event-stream"));
@@ -14618,7 +14623,7 @@ function processPushResult(result, fetchAPI) {
   return new fetchAPI.Response(readableStream, responseInit);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/multipart.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/resultProcessor/multipart.js
 function isMultipartResult(request, result) {
   var _a2;
   return isAsyncIterable2(result) && !!((_a2 = request.headers.get("accept")) === null || _a2 === void 0 ? void 0 : _a2.includes("multipart/mixed"));
@@ -14667,7 +14672,7 @@ function processMultipartResult(executionPatchResultIterable, fetchAPI) {
   return new fetchAPI.Response(readableStream, responseInit);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTFormUrlEncoded.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestParser/POSTFormUrlEncoded.js
 function isPOSTFormUrlEncodedRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "application/x-www-form-urlencoded");
 }
@@ -14676,7 +14681,7 @@ async function parsePOSTFormUrlEncodedRequest(request) {
   return parseURLSearchParams(requestBody);
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/GraphQLYogaError.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/GraphQLYogaError.js
 function isAggregateError2(obj) {
   return obj != null && typeof obj === "object" && "errors" in obj;
 }
@@ -14702,7 +14707,7 @@ function handleError(error, errors = []) {
   return errors;
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckMethodForGraphQL.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckMethodForGraphQL.js
 function useCheckMethodForGraphQL() {
   return {
     onRequest({ request }) {
@@ -14722,7 +14727,7 @@ function useCheckMethodForGraphQL() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckGraphQLQueryParam.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useCheckGraphQLQueryParam.js
 function useCheckGraphQLQueryParam() {
   return {
     onRequestParse() {
@@ -14759,7 +14764,7 @@ function useCheckGraphQLQueryParam() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useHTTPValidationError.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/useHTTPValidationError.js
 function useHTTPValidationError() {
   return {
     onValidate() {
@@ -14777,7 +14782,7 @@ function useHTTPValidationError() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/usePreventMutationViaGET.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/plugins/requestValidation/usePreventMutationViaGET.js
 function usePreventMutationViaGET() {
   return {
     onParse() {
@@ -14818,7 +14823,7 @@ function usePreventMutationViaGET() {
   };
 }
 
-// node_modules/.pnpm/@graphql-yoga+common@2.12.10_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
+// node_modules/.pnpm/@graphql-yoga+common@2.12.12_graphql@16.6.0/node_modules/@graphql-yoga/common/esm/server.js
 function getDefaultSchema() {
   return makeExecutableSchema({
     typeDefs: `
@@ -16235,13 +16240,13 @@ var server = createServer({
     }
   }
 });
-var worker_default = {
+var plain_cloudflare_worker_default = {
   fetch(request) {
     return server.handleRequest(request);
   }
 };
 export {
-  worker_default as default
+  plain_cloudflare_worker_default as default
 };
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
