@@ -1,8 +1,15 @@
-# plain-cloudflare-worker
+# SolidStart experiments with graphql server on Cloudflare Workers
+
+**This repo is deprecated. Please refer to:**
+
+- Updated experiment: https://github.com/patdx/solid-start-2022-09-30
+- Package exports experiment: https://github.com/patdx/package-exports-test
+
+## plain-cloudflare-worker
 
 Demonstration of setting up a graphql server in a plain worker
 
-# solid-with-standard-adapter
+## solid-with-standard-adapter
 
 Demonstration of setting up a graphql server on an API route in solid-start.
 
@@ -85,7 +92,7 @@ If you think this is a bug then please create an issue at https://github.com/clo
  ELIFECYCLE  Command failed with exit code 1.
 ```
 
-# solid-with-custom-adapter
+## solid-with-custom-adapter
 
 Main difference from the solid-start-cloudflare-workers adapter is
 
