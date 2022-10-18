@@ -1,5 +1,7 @@
 # SolidStart experiments with graphql server on Cloudflare Workers
 
+_Repo formerly named `solid-start-graphql-cloudflare`_
+
 **This repo is deprecated. Please refer to:**
 
 - Updated experiment: https://github.com/patdx/solid-start-2022-09-30
