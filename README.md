@@ -4,7 +4,7 @@ _Repo formerly named `solid-start-graphql-cloudflare`_
 
 **This repo is deprecated. Please refer to:**
 
-- Updated experiment: https://github.com/patdx/solid-start-2022-09-30
+- Updated experiment: https://github.com/patdx/solid-start-bundle-experiment
 - Package exports experiment: https://github.com/patdx/package-exports-test
 
 ## plain-cloudflare-worker
